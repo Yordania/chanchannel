@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>36842640386-3iua6df4qu9to1f5rg1662b20l01l8lc.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.36842640386-3iua6df4qu9to1f5rg1662b20l01l8lc</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDnDhaBBO8AlbhUgu_NcrTjj5c3p503trY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>36842640386</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.network.chanchannel</string>
+	<key>PROJECT_ID</key>
+	<string>channel-aeef3</string>
+	<key>STORAGE_BUCKET</key>
+	<string>channel-aeef3.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:36842640386:ios:f1498a7d452a5207b4c31b</string>
+	<key>DATABASE_URL</key>
+	<string>https://channel-aeef3.firebaseio.com</string>
+</dict>
+</plist>
