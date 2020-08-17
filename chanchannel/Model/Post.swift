@@ -10,8 +10,19 @@ import Foundation
 import Firebase
 import FirebaseFirestoreSwift
 
-struct Post: Identifiable, Codable {
+struct Post: Identifiable, Codable, Comparable {
+    static func < (lhs: Post, rhs: Post) -> Bool {
+        return lhs.createdAt.compare(rhs.createdAt) == .orderedAscending
+    }
+    
+    static func == (lhs: Post, rhs: Post) -> Bool {
+        return lhs._id == rhs._id
+    }
+    
     @DocumentID var id: String?
-    let body: String
-    let createdAt: Timestamp
+    var body: String
+    var userId: String?
+    var likes: Int?
+    @objc var createdAt: Timestamp
+    var updatedAt: Timestamp?
 }

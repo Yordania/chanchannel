@@ -22,7 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
-            let navCont = UINavigationController(rootViewController: HomeVC())
+            let navCont = UINavigationController(rootViewController: HomeVC(viewModel: HomeViewModel()))
             window.rootViewController = navCont
             window.backgroundColor = .white
             self.window = window
