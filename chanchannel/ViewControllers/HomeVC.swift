@@ -24,7 +24,10 @@ final class HomeVC: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setupComponents()
+    }
+    
+    private func setupComponents() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonDidTap))
         
         refreshControl = UIRefreshControl()
@@ -45,9 +48,9 @@ final class HomeVC: UITableViewController {
     }
     
     @objc private func addButtonDidTap(_ sender: UIBarButtonItem) {
-        let date = Date()
-        let post = Post(id: UUID().uuidString, body: "\(date.timeIntervalSince1970)", userId: nil, likes: 0, createdAt: Timestamp(date: date), updatedAt: Timestamp(date: date))
-        viewModel.addData(post)
+        let vc = AddOrCreatePostVC(viewModel: AddOrCreatePostViewModel())
+        let navCont = UINavigationController(rootViewController: vc)
+        navigationController?.present(navCont, animated: true, completion: nil)
     }
     
 }
@@ -59,6 +62,7 @@ extension HomeVC {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        cell.textLabel?.numberOfLines = 0
         cell.textLabel?.text = viewModel.posts[indexPath.row].body
         return cell
     }

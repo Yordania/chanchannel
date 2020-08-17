@@ -9,7 +9,7 @@
 import UIKit
 
 extension NSLayoutConstraint {
-    @discardableResult static func layout(visualFormats: [String], options: NSLayoutConstraint.FormatOptions, metrics: [String : Any]?, views: [String : Any]) -> [NSLayoutConstraint] {
+    @discardableResult static func layout(visualFormats: [String], options: NSLayoutConstraint.FormatOptions = [], metrics: [String : Any]? = nil, views: [String : Any]) -> [NSLayoutConstraint] {
         var results: [NSLayoutConstraint] = []
         views.forEach {
             ($0.value as? UIView)?.translatesAutoresizingMaskIntoConstraints = false
@@ -18,6 +18,7 @@ extension NSLayoutConstraint {
             let constraints = NSLayoutConstraint.constraints(withVisualFormat: $0, options: options, metrics: metrics, views: views)
             results.append(contentsOf: constraints)
         }
+        NSLayoutConstraint.activate(results)
         return results
     }
 }

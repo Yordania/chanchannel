@@ -24,7 +24,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let window = UIWindow(windowScene: windowScene)
             let navCont = UINavigationController(rootViewController: HomeVC(viewModel: HomeViewModel()))
             window.rootViewController = navCont
-            window.backgroundColor = .white
             self.window = window
             window.makeKeyAndVisible()
         }
