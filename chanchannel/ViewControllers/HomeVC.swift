@@ -7,12 +7,28 @@
 //
 
 import UIKit
+import Firebase
 
 final class HomeVC: SuperVC {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .red
+        fetchData()
+    }
+    
+    private func fetchData() {
+        let db = Firestore.firestore()
+        db.collection("posts").getDocuments { (querySnapshot, error) in
+            guard let documents = querySnapshot?.documents else {
+              print("No documents")
+              return
+            }
+            
+            let posts = documents.compactMap { queryDocumentSnapshot -> Post? in
+              return try? queryDocumentSnapshot.data(as: Post.self)
+            }
+            debugPrint("\(posts)")
+        }
     }
     
 }

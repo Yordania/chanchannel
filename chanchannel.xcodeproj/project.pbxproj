@@ -20,6 +20,7 @@
 		E84BB75E24E6C7E50086BD55 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84BB75D24E6C7E50086BD55 /* HomeVC.swift */; };
 		E84BB76024E6C81E0086BD55 /* SuperVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84BB75F24E6C81E0086BD55 /* SuperVC.swift */; };
 		E8BFCE1924E6CC6E0011C994 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E8BFCE1824E6CC6E0011C994 /* GoogleService-Info.plist */; };
+		E8BFCE1B24EA5E630011C994 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8BFCE1A24EA5E630011C994 /* Post.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		E84BB75D24E6C7E50086BD55 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		E84BB75F24E6C81E0086BD55 /* SuperVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperVC.swift; sourceTree = "<group>"; };
 		E8BFCE1824E6CC6E0011C994 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E8BFCE1A24EA5E630011C994 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		EF92BB75D408E4F78FECF230 /* Pods-chanchannel-chanchannelUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-chanchannel-chanchannelUITests.debug.xcconfig"; path = "Target Support Files/Pods-chanchannel-chanchannelUITests/Pods-chanchannel-chanchannelUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		FA48E2A095B2834C476660F6 /* Pods_chanchannel_chanchannelUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_chanchannel_chanchannelUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -195,6 +197,7 @@
 		E84BB75B24E6C36E0086BD55 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E8BFCE1A24EA5E630011C994 /* Post.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -450,6 +453,7 @@
 				E84BB72B24E6C20F0086BD55 /* AppDelegate.swift in Sources */,
 				E84BB75E24E6C7E50086BD55 /* HomeVC.swift in Sources */,
 				E84BB72D24E6C20F0086BD55 /* SceneDelegate.swift in Sources */,
+				E8BFCE1B24EA5E630011C994 /* Post.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

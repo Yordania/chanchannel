@@ -7,6 +7,8 @@ target 'chanchannel' do
 
   # Pods for chanchannel
   pod 'Firebase/Analytics'
+  pod 'Firebase/Firestore'
+  pod 'FirebaseFirestoreSwift'
 
   target 'chanchannelTests' do
     inherit! :search_paths
