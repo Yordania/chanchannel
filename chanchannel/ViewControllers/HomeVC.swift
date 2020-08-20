@@ -12,6 +12,7 @@ import Firebase
 final class HomeVC: UITableViewController {
     
     private let viewModel: HomeViewModel
+    private lazy var accountHelper: AccountHelper = AccountHelper()
     
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
@@ -48,6 +49,11 @@ final class HomeVC: UITableViewController {
     }
     
     @objc private func addButtonDidTap(_ sender: UIBarButtonItem) {
+        guard accountHelper.isUserLogin else {
+            let loginVC = accountHelper.getLoginScreen()
+            present(loginVC, animated: true, completion: nil)
+            return
+        }
         let vc = AddOrCreatePostVC(viewModel: AddOrCreatePostViewModel())
         let navCont = UINavigationController(rootViewController: vc)
         navigationController?.present(navCont, animated: true, completion: nil)

@@ -24,6 +24,9 @@
 		E87EEBAA24EA800C0012F87B /* NSLayoutConstraintExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87EEBA924EA800C0012F87B /* NSLayoutConstraintExtension.swift */; };
 		E87EEBAC24EA96920012F87B /* AddOrCreatePostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87EEBAB24EA96920012F87B /* AddOrCreatePostViewModel.swift */; };
 		E87EEBAF24EA97A60012F87B /* ComposePostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87EEBAE24EA97A60012F87B /* ComposePostCell.swift */; };
+		E87EEBB124EE52D40012F87B /* AccountHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87EEBB024EE52D40012F87B /* AccountHelper.swift */; };
+		E87EEBB324EE54000012F87B /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87EEBB224EE54000012F87B /* LoginVC.swift */; };
+		E87EEBB524EE578F0012F87B /* LoginHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87EEBB424EE578F0012F87B /* LoginHeaderView.swift */; };
 		E8BFCE1924E6CC6E0011C994 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E8BFCE1824E6CC6E0011C994 /* GoogleService-Info.plist */; };
 		E8BFCE1B24EA5E630011C994 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8BFCE1A24EA5E630011C994 /* Post.swift */; };
 /* End PBXBuildFile section */
@@ -73,6 +76,9 @@
 		E87EEBA924EA800C0012F87B /* NSLayoutConstraintExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSLayoutConstraintExtension.swift; sourceTree = "<group>"; };
 		E87EEBAB24EA96920012F87B /* AddOrCreatePostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrCreatePostViewModel.swift; sourceTree = "<group>"; };
 		E87EEBAE24EA97A60012F87B /* ComposePostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposePostCell.swift; sourceTree = "<group>"; };
+		E87EEBB024EE52D40012F87B /* AccountHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountHelper.swift; sourceTree = "<group>"; };
+		E87EEBB224EE54000012F87B /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
+		E87EEBB424EE578F0012F87B /* LoginHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginHeaderView.swift; sourceTree = "<group>"; };
 		E8BFCE1824E6CC6E0011C994 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E8BFCE1A24EA5E630011C994 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		EF92BB75D408E4F78FECF230 /* Pods-chanchannel-chanchannelUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-chanchannel-chanchannelUITests.debug.xcconfig"; path = "Target Support Files/Pods-chanchannel-chanchannelUITests/Pods-chanchannel-chanchannelUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -203,6 +209,7 @@
 				E84BB75D24E6C7E50086BD55 /* HomeVC.swift */,
 				E84BB75F24E6C81E0086BD55 /* SuperVC.swift */,
 				E87EEBA724EA7FC80012F87B /* AddOrCreatePostVC.swift */,
+				E87EEBB224EE54000012F87B /* LoginVC.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -228,6 +235,7 @@
 			isa = PBXGroup;
 			children = (
 				E87EEBA924EA800C0012F87B /* NSLayoutConstraintExtension.swift */,
+				E87EEBB024EE52D40012F87B /* AccountHelper.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -236,6 +244,7 @@
 			isa = PBXGroup;
 			children = (
 				E87EEBAE24EA97A60012F87B /* ComposePostCell.swift */,
+				E87EEBB424EE578F0012F87B /* LoginHeaderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -482,10 +491,13 @@
 			files = (
 				E84BB76024E6C81E0086BD55 /* SuperVC.swift in Sources */,
 				E87EEBAA24EA800C0012F87B /* NSLayoutConstraintExtension.swift in Sources */,
+				E87EEBB324EE54000012F87B /* LoginVC.swift in Sources */,
 				E87EEBA324EA7CDC0012F87B /* HomeViewModel.swift in Sources */,
 				E87EEBAC24EA96920012F87B /* AddOrCreatePostViewModel.swift in Sources */,
+				E87EEBB124EE52D40012F87B /* AccountHelper.swift in Sources */,
 				E87EEBAF24EA97A60012F87B /* ComposePostCell.swift in Sources */,
 				E84BB72B24E6C20F0086BD55 /* AppDelegate.swift in Sources */,
+				E87EEBB524EE578F0012F87B /* LoginHeaderView.swift in Sources */,
 				E84BB75E24E6C7E50086BD55 /* HomeVC.swift in Sources */,
 				E84BB72D24E6C20F0086BD55 /* SceneDelegate.swift in Sources */,
 				E8BFCE1B24EA5E630011C994 /* Post.swift in Sources */,
