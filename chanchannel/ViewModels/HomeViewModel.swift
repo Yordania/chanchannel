@@ -10,7 +10,21 @@ import Foundation
 import Firebase
 
 final class HomeViewModel {
+    
+    private lazy var accountHelper: AccountHelper = AccountHelper()
     var posts: [Post] = []
+    
+    var isUserAlreadyLogin: Bool {
+        return accountHelper.isUserLogin
+    }
+    
+    func getLoginScreen() -> LoginVC? {
+        return accountHelper.getLoginScreen() as? LoginVC
+    }
+    
+    func logout() throws {
+        try accountHelper.logoutUser()
+    }
     
     func fetchData(_ onComplete: (() -> ())? = nil) {
         let db = Firestore.firestore()

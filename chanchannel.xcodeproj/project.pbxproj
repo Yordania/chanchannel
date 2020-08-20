@@ -30,8 +30,10 @@
 		E87EEBB724EE57F20012F87B /* TextInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87EEBB624EE57F20012F87B /* TextInputCell.swift */; };
 		E87EEBB924EE5BD60012F87B /* AssetsColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87EEBB824EE5BD60012F87B /* AssetsColor.swift */; };
 		E87EEBBB24EE63650012F87B /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87EEBBA24EE63650012F87B /* ArrayExtension.swift */; };
+		E87EEBBD24EE67C60012F87B /* LoginFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87EEBBC24EE67C60012F87B /* LoginFooterView.swift */; };
 		E8BFCE1924E6CC6E0011C994 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E8BFCE1824E6CC6E0011C994 /* GoogleService-Info.plist */; };
 		E8BFCE1B24EA5E630011C994 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8BFCE1A24EA5E630011C994 /* Post.swift */; };
+		E8EA1CEC24EE6D3F00D7BF29 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8EA1CEB24EE6D3F00D7BF29 /* LoginViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,8 +87,10 @@
 		E87EEBB624EE57F20012F87B /* TextInputCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputCell.swift; sourceTree = "<group>"; };
 		E87EEBB824EE5BD60012F87B /* AssetsColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetsColor.swift; sourceTree = "<group>"; };
 		E87EEBBA24EE63650012F87B /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
+		E87EEBBC24EE67C60012F87B /* LoginFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginFooterView.swift; sourceTree = "<group>"; };
 		E8BFCE1824E6CC6E0011C994 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E8BFCE1A24EA5E630011C994 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		E8EA1CEB24EE6D3F00D7BF29 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		EF92BB75D408E4F78FECF230 /* Pods-chanchannel-chanchannelUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-chanchannel-chanchannelUITests.debug.xcconfig"; path = "Target Support Files/Pods-chanchannel-chanchannelUITests/Pods-chanchannel-chanchannelUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		FA48E2A095B2834C476660F6 /* Pods_chanchannel_chanchannelUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_chanchannel_chanchannelUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -233,6 +237,7 @@
 			children = (
 				E87EEBA224EA7CDC0012F87B /* HomeViewModel.swift */,
 				E87EEBAB24EA96920012F87B /* AddOrCreatePostViewModel.swift */,
+				E8EA1CEB24EE6D3F00D7BF29 /* LoginViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -254,6 +259,7 @@
 				E87EEBAE24EA97A60012F87B /* ComposePostCell.swift */,
 				E87EEBB424EE578F0012F87B /* LoginHeaderView.swift */,
 				E87EEBB624EE57F20012F87B /* TextInputCell.swift */,
+				E87EEBBC24EE67C60012F87B /* LoginFooterView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -506,9 +512,11 @@
 				E87EEBB124EE52D40012F87B /* AccountHelper.swift in Sources */,
 				E87EEBAF24EA97A60012F87B /* ComposePostCell.swift in Sources */,
 				E84BB72B24E6C20F0086BD55 /* AppDelegate.swift in Sources */,
+				E8EA1CEC24EE6D3F00D7BF29 /* LoginViewModel.swift in Sources */,
 				E87EEBB524EE578F0012F87B /* LoginHeaderView.swift in Sources */,
 				E84BB75E24E6C7E50086BD55 /* HomeVC.swift in Sources */,
 				E84BB72D24E6C20F0086BD55 /* SceneDelegate.swift in Sources */,
+				E87EEBBD24EE67C60012F87B /* LoginFooterView.swift in Sources */,
 				E87EEBBB24EE63650012F87B /* ArrayExtension.swift in Sources */,
 				E87EEBB924EE5BD60012F87B /* AssetsColor.swift in Sources */,
 				E8BFCE1B24EA5E630011C994 /* Post.swift in Sources */,

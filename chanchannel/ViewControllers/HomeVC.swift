@@ -12,7 +12,6 @@ import Firebase
 final class HomeVC: UITableViewController {
     
     private let viewModel: HomeViewModel
-    private lazy var accountHelper: AccountHelper = AccountHelper()
     
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
@@ -28,6 +27,11 @@ final class HomeVC: UITableViewController {
         setupComponents()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupLeftBarButtonItems()
+    }
+    
     private func setupComponents() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonDidTap))
         
@@ -41,6 +45,12 @@ final class HomeVC: UITableViewController {
         }
     }
     
+    private func setupLeftBarButtonItems() {
+        if viewModel.isUserAlreadyLogin {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(title: "SignOut", style: .done, target: self, action: #selector(logoutButtonDidTap))
+        }
+    }
+    
     @objc private func pullToRefreshDidInitate(_ sender: UIRefreshControl) {
         viewModel.fetchData() { [weak self] in
             self?.refreshControl?.endRefreshing()
@@ -49,14 +59,29 @@ final class HomeVC: UITableViewController {
     }
     
     @objc private func addButtonDidTap(_ sender: UIBarButtonItem) {
-        guard accountHelper.isUserLogin else {
-            let loginVC = accountHelper.getLoginScreen()
-            present(loginVC, animated: true, completion: nil)
+        guard viewModel.isUserAlreadyLogin else {
+            if let loginVC = viewModel.getLoginScreen() {
+                loginVC.delegate = self
+                let navCont = UINavigationController(rootViewController: loginVC)
+                present(navCont, animated: true, completion: nil)
+            }
             return
         }
         let vc = AddOrCreatePostVC(viewModel: AddOrCreatePostViewModel())
         let navCont = UINavigationController(rootViewController: vc)
         navigationController?.present(navCont, animated: true, completion: nil)
+    }
+    
+    @objc private func logoutButtonDidTap(_ sender: UIBarButtonItem) {
+        do {
+            try viewModel.logout()
+            navigationItem.leftBarButtonItem = nil
+        } catch {
+            let alert = UIAlertController(title: "SignOut failed", message: nil, preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+            alert.addAction(okAction)
+            present(alert, animated: true, completion: nil)
+        }
     }
     
 }
@@ -71,5 +96,11 @@ extension HomeVC {
         cell.textLabel?.numberOfLines = 0
         cell.textLabel?.text = viewModel.posts[indexPath.row].body
         return cell
+    }
+}
+
+extension HomeVC: LoginScreenProtocol {
+    func loginScreenDidDismiss() {
+        setupLeftBarButtonItems()
     }
 }

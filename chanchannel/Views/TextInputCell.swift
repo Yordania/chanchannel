@@ -48,6 +48,10 @@ final class TextInputCell: UITableViewCell {
         return view
     }()
     
+    override func becomeFirstResponder() -> Bool {
+        textInputView.becomeFirstResponder()
+    }
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupComponents()
@@ -58,6 +62,7 @@ final class TextInputCell: UITableViewCell {
     }
     
     private func setupComponents() {
+        selectionStyle = .none
         contentView.addSubview(titleLabel)
         contentView.addSubview(textInputView)
         contentView.addSubview(infoLabel)
