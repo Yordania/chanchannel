@@ -9,10 +9,11 @@
 import UIKit
 
 final class LoginHeaderView: UIView {
-    private lazy var titleLabel: UILabel = {
+    private(set) lazy var titleLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.font = UIFont.boldSystemFont(ofSize: 24)
+        label.numberOfLines = 0
         return label
     }()
     
@@ -26,7 +27,6 @@ final class LoginHeaderView: UIView {
     }
     
     private func setupComponents() {
-        titleLabel.text = "Welcome to Chanchannel!"
         addSubview(titleLabel)
         NSLayoutConstraint.layout(visualFormats: ["H:|-[titleLabel]-|"],
                                   views: ["titleLabel" : titleLabel])

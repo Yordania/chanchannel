@@ -27,6 +27,9 @@
 		E87EEBB124EE52D40012F87B /* AccountHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87EEBB024EE52D40012F87B /* AccountHelper.swift */; };
 		E87EEBB324EE54000012F87B /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87EEBB224EE54000012F87B /* LoginVC.swift */; };
 		E87EEBB524EE578F0012F87B /* LoginHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87EEBB424EE578F0012F87B /* LoginHeaderView.swift */; };
+		E87EEBB724EE57F20012F87B /* TextInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87EEBB624EE57F20012F87B /* TextInputCell.swift */; };
+		E87EEBB924EE5BD60012F87B /* AssetsColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87EEBB824EE5BD60012F87B /* AssetsColor.swift */; };
+		E87EEBBB24EE63650012F87B /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87EEBBA24EE63650012F87B /* ArrayExtension.swift */; };
 		E8BFCE1924E6CC6E0011C994 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E8BFCE1824E6CC6E0011C994 /* GoogleService-Info.plist */; };
 		E8BFCE1B24EA5E630011C994 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8BFCE1A24EA5E630011C994 /* Post.swift */; };
 /* End PBXBuildFile section */
@@ -79,6 +82,9 @@
 		E87EEBB024EE52D40012F87B /* AccountHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountHelper.swift; sourceTree = "<group>"; };
 		E87EEBB224EE54000012F87B /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		E87EEBB424EE578F0012F87B /* LoginHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginHeaderView.swift; sourceTree = "<group>"; };
+		E87EEBB624EE57F20012F87B /* TextInputCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputCell.swift; sourceTree = "<group>"; };
+		E87EEBB824EE5BD60012F87B /* AssetsColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetsColor.swift; sourceTree = "<group>"; };
+		E87EEBBA24EE63650012F87B /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
 		E8BFCE1824E6CC6E0011C994 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E8BFCE1A24EA5E630011C994 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		EF92BB75D408E4F78FECF230 /* Pods-chanchannel-chanchannelUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-chanchannel-chanchannelUITests.debug.xcconfig"; path = "Target Support Files/Pods-chanchannel-chanchannelUITests/Pods-chanchannel-chanchannelUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -236,6 +242,8 @@
 			children = (
 				E87EEBA924EA800C0012F87B /* NSLayoutConstraintExtension.swift */,
 				E87EEBB024EE52D40012F87B /* AccountHelper.swift */,
+				E87EEBB824EE5BD60012F87B /* AssetsColor.swift */,
+				E87EEBBA24EE63650012F87B /* ArrayExtension.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -245,6 +253,7 @@
 			children = (
 				E87EEBAE24EA97A60012F87B /* ComposePostCell.swift */,
 				E87EEBB424EE578F0012F87B /* LoginHeaderView.swift */,
+				E87EEBB624EE57F20012F87B /* TextInputCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -500,8 +509,11 @@
 				E87EEBB524EE578F0012F87B /* LoginHeaderView.swift in Sources */,
 				E84BB75E24E6C7E50086BD55 /* HomeVC.swift in Sources */,
 				E84BB72D24E6C20F0086BD55 /* SceneDelegate.swift in Sources */,
+				E87EEBBB24EE63650012F87B /* ArrayExtension.swift in Sources */,
+				E87EEBB924EE5BD60012F87B /* AssetsColor.swift in Sources */,
 				E8BFCE1B24EA5E630011C994 /* Post.swift in Sources */,
 				E87EEBA824EA7FC80012F87B /* AddOrCreatePostVC.swift in Sources */,
+				E87EEBB724EE57F20012F87B /* TextInputCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
