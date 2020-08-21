@@ -67,7 +67,7 @@ final class HomeVC: UITableViewController {
             }
             return
         }
-        let vc = AddOrCreatePostVC(viewModel: AddOrCreatePostViewModel())
+        let vc = CreatePostVC(viewModel: CreatePostViewModel())
         let navCont = UINavigationController(rootViewController: vc)
         navigationController?.present(navCont, animated: true, completion: nil)
     }

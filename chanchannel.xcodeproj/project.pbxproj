@@ -20,9 +20,9 @@
 		E84BB75E24E6C7E50086BD55 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84BB75D24E6C7E50086BD55 /* HomeVC.swift */; };
 		E84BB76024E6C81E0086BD55 /* SuperVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84BB75F24E6C81E0086BD55 /* SuperVC.swift */; };
 		E87EEBA324EA7CDC0012F87B /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87EEBA224EA7CDC0012F87B /* HomeViewModel.swift */; };
-		E87EEBA824EA7FC80012F87B /* AddOrCreatePostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87EEBA724EA7FC80012F87B /* AddOrCreatePostVC.swift */; };
+		E87EEBA824EA7FC80012F87B /* CreatePostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87EEBA724EA7FC80012F87B /* CreatePostVC.swift */; };
 		E87EEBAA24EA800C0012F87B /* NSLayoutConstraintExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87EEBA924EA800C0012F87B /* NSLayoutConstraintExtension.swift */; };
-		E87EEBAC24EA96920012F87B /* AddOrCreatePostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87EEBAB24EA96920012F87B /* AddOrCreatePostViewModel.swift */; };
+		E87EEBAC24EA96920012F87B /* CreatePostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87EEBAB24EA96920012F87B /* CreatePostViewModel.swift */; };
 		E87EEBAF24EA97A60012F87B /* ComposePostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87EEBAE24EA97A60012F87B /* ComposePostCell.swift */; };
 		E87EEBB124EE52D40012F87B /* AccountHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87EEBB024EE52D40012F87B /* AccountHelper.swift */; };
 		E87EEBB324EE54000012F87B /* RegisterOrLoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87EEBB224EE54000012F87B /* RegisterOrLoginVC.swift */; };
@@ -78,9 +78,9 @@
 		E84BB75D24E6C7E50086BD55 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		E84BB75F24E6C81E0086BD55 /* SuperVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperVC.swift; sourceTree = "<group>"; };
 		E87EEBA224EA7CDC0012F87B /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
-		E87EEBA724EA7FC80012F87B /* AddOrCreatePostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrCreatePostVC.swift; sourceTree = "<group>"; };
+		E87EEBA724EA7FC80012F87B /* CreatePostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostVC.swift; sourceTree = "<group>"; };
 		E87EEBA924EA800C0012F87B /* NSLayoutConstraintExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSLayoutConstraintExtension.swift; sourceTree = "<group>"; };
-		E87EEBAB24EA96920012F87B /* AddOrCreatePostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrCreatePostViewModel.swift; sourceTree = "<group>"; };
+		E87EEBAB24EA96920012F87B /* CreatePostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewModel.swift; sourceTree = "<group>"; };
 		E87EEBAE24EA97A60012F87B /* ComposePostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposePostCell.swift; sourceTree = "<group>"; };
 		E87EEBB024EE52D40012F87B /* AccountHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountHelper.swift; sourceTree = "<group>"; };
 		E87EEBB224EE54000012F87B /* RegisterOrLoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterOrLoginVC.swift; sourceTree = "<group>"; };
@@ -220,7 +220,7 @@
 			children = (
 				E84BB75D24E6C7E50086BD55 /* HomeVC.swift */,
 				E84BB75F24E6C81E0086BD55 /* SuperVC.swift */,
-				E87EEBA724EA7FC80012F87B /* AddOrCreatePostVC.swift */,
+				E87EEBA724EA7FC80012F87B /* CreatePostVC.swift */,
 				E87EEBB224EE54000012F87B /* RegisterOrLoginVC.swift */,
 			);
 			path = ViewControllers;
@@ -239,7 +239,7 @@
 			isa = PBXGroup;
 			children = (
 				E87EEBA224EA7CDC0012F87B /* HomeViewModel.swift */,
-				E87EEBAB24EA96920012F87B /* AddOrCreatePostViewModel.swift */,
+				E87EEBAB24EA96920012F87B /* CreatePostViewModel.swift */,
 				E8EA1CEB24EE6D3F00D7BF29 /* RegisterOrLoginViewModel.swift */,
 			);
 			path = ViewModels;
@@ -511,7 +511,7 @@
 				E87EEBAA24EA800C0012F87B /* NSLayoutConstraintExtension.swift in Sources */,
 				E87EEBB324EE54000012F87B /* RegisterOrLoginVC.swift in Sources */,
 				E87EEBA324EA7CDC0012F87B /* HomeViewModel.swift in Sources */,
-				E87EEBAC24EA96920012F87B /* AddOrCreatePostViewModel.swift in Sources */,
+				E87EEBAC24EA96920012F87B /* CreatePostViewModel.swift in Sources */,
 				E87EEBB124EE52D40012F87B /* AccountHelper.swift in Sources */,
 				E87EEBAF24EA97A60012F87B /* ComposePostCell.swift in Sources */,
 				E84BB72B24E6C20F0086BD55 /* AppDelegate.swift in Sources */,
@@ -523,7 +523,7 @@
 				E87EEBBB24EE63650012F87B /* ArrayExtension.swift in Sources */,
 				E87EEBB924EE5BD60012F87B /* AssetsColor.swift in Sources */,
 				E8BFCE1B24EA5E630011C994 /* Post.swift in Sources */,
-				E87EEBA824EA7FC80012F87B /* AddOrCreatePostVC.swift in Sources */,
+				E87EEBA824EA7FC80012F87B /* CreatePostVC.swift in Sources */,
 				E8EA1CF024EF8F4500D7BF29 /* Account.swift in Sources */,
 				E87EEBB724EE57F20012F87B /* TextInputCell.swift in Sources */,
 			);

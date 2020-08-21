@@ -12,16 +12,15 @@ import Firebase
 final class CreatePostViewModel {
     var post: Post
     
-    init(with post: Post? = nil) {
-        if let _post = post {
-            self.post = _post
-        } else {
-            let date = Date()
-            self.post = Post(id: nil, body: "", userId: AccountHelper().currentUser?.uid, likes: nil, createdAt: Timestamp(date: date), updatedAt: Timestamp(date: date))
-        }
+    init() {
+        let date = Date()
+        self.post = Post(id: nil, body: "", userId: nil, author: nil, likes: nil, createdAt: Timestamp(date: date), updatedAt: Timestamp(date: date))
     }
     
     func addData() {
+        let accountHelper = AccountHelper()
+        post.userId = accountHelper.currentUser?.uid
+        post.author = accountHelper.currentUser?.displayName
         let db = Firestore.firestore()
         let _ = try? db.collection("posts").addDocument(from: post) { (error) in
             guard let _error = error else { return }

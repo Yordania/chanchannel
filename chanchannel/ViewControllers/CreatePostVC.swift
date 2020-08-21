@@ -1,5 +1,5 @@
 //
-//  AddOrCreatePostVC.swift
+//  CreatePostVC.swift
 //  chanchannel
 //
 //  Created by Odan on 17/8/20.
@@ -8,11 +8,11 @@
 
 import UIKit
 
-final class AddOrCreatePostVC: UITableViewController {
+final class CreatePostVC: UITableViewController {
     
-    private let viewModel: AddOrCreatePostViewModel
+    private let viewModel: CreatePostViewModel
     
-    init(viewModel: AddOrCreatePostViewModel) {
+    init(viewModel: CreatePostViewModel) {
         self.viewModel = viewModel
         super.init(style: .grouped)
     }
@@ -43,7 +43,7 @@ final class AddOrCreatePostVC: UITableViewController {
     
 }
 
-extension AddOrCreatePostVC {
+extension CreatePostVC {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
@@ -65,7 +65,7 @@ extension AddOrCreatePostVC {
     }
 }
 
-extension AddOrCreatePostVC: UITextViewDelegate {
+extension CreatePostVC: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         viewModel.post.body = textView.text
     }

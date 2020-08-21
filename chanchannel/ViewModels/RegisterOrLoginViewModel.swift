@@ -18,13 +18,20 @@ final class RegisterOrLoginViewModel {
     var name: String = ""
     
     func doRegister(onComplete: ((AccountError?) -> ())?) {
-        accountHelper.registerUser(with: email, password: password) { [weak self] (error) in
-            let db = Firestore.firestore()
+        accountHelper.registerUser(with: email, password: password) { [weak self] (accountError) in
             if let currentUser = self?.accountHelper.currentUser {
-                let account = Account(id: currentUser.uid, name: self?.name ?? "")
-                try? db.collection("users").document(currentUser.uid).setData(from: account)
+                let changeRequest = currentUser.createProfileChangeRequest()
+                changeRequest.displayName = self?.name
+                changeRequest.commitChanges(completion: { (error) in
+                    if error != nil {
+                        onComplete?(.generic)
+                    } else {
+                        onComplete?(nil)
+                    }
+                })
+            } else {
+                onComplete?(accountError)
             }
-            onComplete?(error)
         }
     }
     
