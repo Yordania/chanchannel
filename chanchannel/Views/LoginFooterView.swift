@@ -12,18 +12,16 @@ final class LoginFooterView: UIView {
     
     private let buttonHeight: CGFloat = 44
     private let padding: CGFloat = 16
-    private(set) lazy var loginButton: UIButton = {
+    private(set) lazy var primaryButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setTitle("Sign-in", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.setTitleColor(.systemGray, for: .highlighted)
         button.backgroundColor = .systemBlue
         return button
     }()
     
-    private(set) lazy var registerButton: UIButton = {
+    private(set) lazy var secondaryButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setTitle("I don't have an account yet", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.setTitleColor(.systemGray, for: .highlighted)
         button.backgroundColor = .systemTeal
@@ -41,16 +39,16 @@ final class LoginFooterView: UIView {
     
     private func setupComponents() {
         preservesSuperviewLayoutMargins = true
-        addSubview(loginButton)
-        addSubview(registerButton)
+        addSubview(primaryButton)
+        addSubview(secondaryButton)
         
-        NSLayoutConstraint.layout(visualFormats: ["H:|-[loginButton]-|",
-                                                  "H:|-[registerButton]-|",
-                                                  "V:|-(padding@999)-[loginButton(buttonHeight)]-(padding@999)-[registerButton(buttonHeight)]-(padding@999)-|"],
+        NSLayoutConstraint.layout(visualFormats: ["H:|-[primaryButton]-|",
+                                                  "H:|-[secondaryButton]-|",
+                                                  "V:|-(padding@999)-[primaryButton(buttonHeight)]-(padding@999)-[secondaryButton(buttonHeight)]-(padding@999)-|"],
                                   metrics: ["buttonHeight" : buttonHeight,
                                             "padding" : padding],
-                                  views: ["loginButton" : loginButton,
-                                          "registerButton" : registerButton])
+                                  views: ["primaryButton" : primaryButton,
+                                          "secondaryButton" : secondaryButton])
     }
     
     func getViewHeight() -> CGFloat {

@@ -14,44 +14,71 @@ protocol LoginScreenProtocol: AnyObject {
 
 final class LoginVC: UITableViewController {
     
+    enum ScreenType {
+        case login
+        case register
+        
+        var headerViewTitle: String? {
+            switch self {
+            case .login: return "Sign-in to\nChanchannel!"
+            case .register: return "Welcome to\nChanchannel!"
+            }
+        }
+        
+        var primaryButtonTitle: String? {
+            switch self {
+            case .login: return "Sign-in"
+            case .register: return "Register"
+            }
+        }
+        
+        var secondaryButtonTitle: String? {
+            switch self {
+            case .login: return "I don't have an account yet"
+            case .register: return "Actually, I have an account"
+            }
+        }
+    }
+    
     enum Row: Int {
         case email = 0
         case password
+        case name
         
         var title: String? {
             switch self {
-            case .email:
-                return "Email"
-            case .password:
-                return "Password"
+            case .email: return "Email"
+            case .password: return "Password"
+            case .name: return "Your name"
             }
         }
         
         var placeholder: String? {
             switch self {
-            case .email:
-                return "e.g johndoe@mail.com"
-            case .password:
-                return "minimum 8 characters"
+            case .email: return "e.g johndoe@mail.com"
+            case .password: return "minimum 8 characters"
+            case .name: return "e.g John Doe"
             }
         }
         
         var keyboardType: UIKeyboardType {
             switch self {
-            case .email:
-                return .emailAddress
-            default:
-                return .default
+            case .email: return .emailAddress
+            default: return .default
             }
         }
     }
     
     private let viewModel: LoginViewModel
-    private let rows: [Row] = [.email, .password]
+    private let screenType: ScreenType
+    private lazy var rows: [Row] = {
+        return screenType == .login ? [.email, .password] : [.email, .password, .name]
+    }()
     weak var delegate: LoginScreenProtocol?
     
-    init(viewModel: LoginViewModel) {
+    init(viewModel: LoginViewModel, screenType: ScreenType) {
         self.viewModel = viewModel
+        self.screenType = screenType
         super.init(style: .plain)
     }
     
@@ -71,39 +98,63 @@ final class LoginVC: UITableViewController {
         tableView.register(TextInputCell.self, forCellReuseIdentifier: "TextInput")
         
         let headerView = LoginHeaderView(frame: .zero)
-        headerView.titleLabel.text = "Sign-in to\nChanchannel!"
+        headerView.titleLabel.text = screenType.headerViewTitle
         tableView.tableHeaderView = headerView
         tableView.tableHeaderView?.frame.size.height = 175
         
         let footerView = LoginFooterView(frame: .zero)
         tableView.tableFooterView = footerView
         tableView.tableFooterView?.frame.size.height = footerView.getViewHeight()
-        footerView.loginButton.addTarget(self, action: #selector(loginButtonDidTap), for: .touchUpInside)
-        footerView.registerButton.addTarget(self, action: #selector(registerButtonDidTap), for: .touchUpInside)
+        footerView.primaryButton.setTitle(screenType.primaryButtonTitle, for: .normal)
+        footerView.primaryButton.addTarget(self, action: #selector(primaryButtonDidTap), for: .touchUpInside)
+        footerView.secondaryButton.setTitle(screenType.secondaryButtonTitle, for: .normal)
+        footerView.secondaryButton.addTarget(self, action: #selector(secondaryButtonDidTap), for: .touchUpInside)
     }
     
     @objc private func cancelButtonDidTap(_ sender: UIBarButtonItem) {
         dismissScreen()
     }
     
-    @objc private func loginButtonDidTap(_ sender: UIButton) {
+    @objc private func primaryButtonDidTap(_ sender: UIButton) {
         view.endEditing(true)
-        viewModel.doLogin { [weak self] (error) in
-            guard let _error = error else {
-                self?.dismissScreen()
-                return
+        
+        switch screenType {
+        case .login:
+            viewModel.doLogin { [weak self] (error) in
+                guard let _error = error else {
+                    self?.dismissScreen()
+                    return
+                }
+                
+                let alert = UIAlertController(title: _error.title, message: nil, preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                alert.addAction(okAction)
+                self?.present(alert, animated: true, completion: nil)
             }
-            
-            let alert = UIAlertController(title: _error.title, message: nil, preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-            alert.addAction(okAction)
-            self?.present(alert, animated: true, completion: nil)
+        case .register:
+            viewModel.doRegister { [weak self] (error) in
+                guard let _error = error else {
+                    self?.dismissScreen()
+                    return
+                }
+                
+                let alert = UIAlertController(title: _error.title, message: nil, preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                alert.addAction(okAction)
+                self?.present(alert, animated: true, completion: nil)
+            }
         }
     }
     
-    @objc private func registerButtonDidTap(_ sender: UIButton) {
-        let navCont = UINavigationController(rootViewController: LoginVC(viewModel: LoginViewModel()))
-        present(navCont, animated: true, completion: nil)
+    @objc private func secondaryButtonDidTap(_ sender: UIButton) {
+        switch screenType {
+        case .login:
+            let registerVC = LoginVC(viewModel: LoginViewModel(), screenType: .register)
+            registerVC.delegate = self
+            navigationController?.pushViewController(registerVC, animated: true)
+        case .register:
+            navigationController?.popViewController(animated: true)
+        }
     }
     
     private func dismissScreen() {
@@ -132,7 +183,6 @@ extension LoginVC {
             cell.textInputView.placeholder = row.placeholder
             cell.textInputView.delegate = self
             cell.textInputView.tag = row.rawValue
-            cell.setInfoLabel(indexPath.description, type: .error)
         }
         
         return cell
@@ -152,6 +202,14 @@ extension LoginVC: UITextFieldDelegate {
             viewModel.email = textField.text ?? ""
         case .password:
             viewModel.password = textField.text ?? ""
+        case .name:
+            viewModel.name = textField.text ?? ""
         }
+    }
+}
+
+extension LoginVC: LoginScreenProtocol {
+    func loginScreenDidDismiss() {
+        delegate?.loginScreenDidDismiss()
     }
 }

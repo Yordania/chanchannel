@@ -25,7 +25,9 @@ enum AccountError {
 
 protocol AccountHelperProtocol {
     var isUserLogin: Bool { get }
+    var currentUser: User? { get }
     func getLoginScreen() -> UIViewController
+    func registerUser(with email: String, password: String, onComplete: ((AccountError?) -> ())?)
     func loginUser(with email: String, password: String, onComplete: ((AccountError?) -> ())?)
     func logoutUser() throws
 }
@@ -34,11 +36,25 @@ final class AccountHelper: AccountHelperProtocol {
     private lazy var auth: Auth = Auth.auth()
     
     var isUserLogin: Bool {
-        return auth.currentUser != nil
+        return currentUser != nil
+    }
+    
+    var currentUser: User? {
+        return auth.currentUser
     }
     
     func getLoginScreen() -> UIViewController {
-        return LoginVC(viewModel: LoginViewModel())
+        return LoginVC(viewModel: LoginViewModel(), screenType: .login)
+    }
+    
+    func registerUser(with email: String, password: String, onComplete: ((AccountError?) -> ())?) {
+        auth.createUser(withEmail: email, password: password) { [weak self] (authResult, error) in
+            if self?.isUserLogin == true {
+                onComplete?(nil)
+            } else {
+                onComplete?(.generic)
+            }
+        }
     }
     
     func loginUser(with email: String, password: String, onComplete: ((AccountError?) -> ())?) {
