@@ -1,5 +1,5 @@
 //
-//  LoginVC.swift
+//  RegisterOrLoginVC.swift
 //  chanchannel
 //
 //  Created by Odan on 20/8/20.
@@ -8,11 +8,11 @@
 
 import UIKit
 
-protocol LoginScreenProtocol: AnyObject {
+protocol RegisterOrLoginScreenProtocol: AnyObject {
     func loginScreenDidDismiss()
 }
 
-final class LoginVC: UITableViewController {
+final class RegisterOrLoginVC: UITableViewController {
     
     enum ScreenType {
         case login
@@ -69,14 +69,14 @@ final class LoginVC: UITableViewController {
         }
     }
     
-    private let viewModel: LoginViewModel
+    private let viewModel: RegisterOrLoginViewModel
     private let screenType: ScreenType
     private lazy var rows: [Row] = {
         return screenType == .login ? [.email, .password] : [.email, .password, .name]
     }()
-    weak var delegate: LoginScreenProtocol?
+    weak var delegate: RegisterOrLoginScreenProtocol?
     
-    init(viewModel: LoginViewModel, screenType: ScreenType) {
+    init(viewModel: RegisterOrLoginViewModel, screenType: ScreenType) {
         self.viewModel = viewModel
         self.screenType = screenType
         super.init(style: .plain)
@@ -97,12 +97,12 @@ final class LoginVC: UITableViewController {
         tableView.separatorStyle = .none
         tableView.register(TextInputCell.self, forCellReuseIdentifier: "TextInput")
         
-        let headerView = LoginHeaderView(frame: .zero)
+        let headerView = RegisterOrLoginHeaderView(frame: .zero)
         headerView.titleLabel.text = screenType.headerViewTitle
         tableView.tableHeaderView = headerView
         tableView.tableHeaderView?.frame.size.height = 175
         
-        let footerView = LoginFooterView(frame: .zero)
+        let footerView = RegisterOrLoginFooterView(frame: .zero)
         tableView.tableFooterView = footerView
         tableView.tableFooterView?.frame.size.height = footerView.getViewHeight()
         footerView.primaryButton.setTitle(screenType.primaryButtonTitle, for: .normal)
@@ -149,7 +149,7 @@ final class LoginVC: UITableViewController {
     @objc private func secondaryButtonDidTap(_ sender: UIButton) {
         switch screenType {
         case .login:
-            let registerVC = LoginVC(viewModel: LoginViewModel(), screenType: .register)
+            let registerVC = RegisterOrLoginVC(viewModel: RegisterOrLoginViewModel(), screenType: .register)
             registerVC.delegate = self
             navigationController?.pushViewController(registerVC, animated: true)
         case .register:
@@ -165,7 +165,7 @@ final class LoginVC: UITableViewController {
     
 }
 
-extension LoginVC {
+extension RegisterOrLoginVC {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return rows.count
     }
@@ -194,7 +194,7 @@ extension LoginVC {
     }
 }
 
-extension LoginVC: UITextFieldDelegate {
+extension RegisterOrLoginVC: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         guard let row = Row(rawValue: textField.tag) else { return }
         switch row {
@@ -208,7 +208,7 @@ extension LoginVC: UITextFieldDelegate {
     }
 }
 
-extension LoginVC: LoginScreenProtocol {
+extension RegisterOrLoginVC: RegisterOrLoginScreenProtocol {
     func loginScreenDidDismiss() {
         delegate?.loginScreenDidDismiss()
     }

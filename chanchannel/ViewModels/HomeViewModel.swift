@@ -18,8 +18,8 @@ final class HomeViewModel {
         return accountHelper.isUserLogin
     }
     
-    func getLoginScreen() -> LoginVC? {
-        return accountHelper.getLoginScreen() as? LoginVC
+    func getLoginScreen() -> RegisterOrLoginVC? {
+        return accountHelper.getLoginScreen() as? RegisterOrLoginVC
     }
     
     func logout() throws {

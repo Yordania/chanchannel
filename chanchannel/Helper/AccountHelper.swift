@@ -44,7 +44,7 @@ final class AccountHelper: AccountHelperProtocol {
     }
     
     func getLoginScreen() -> UIViewController {
-        return LoginVC(viewModel: LoginViewModel(), screenType: .login)
+        return RegisterOrLoginVC(viewModel: RegisterOrLoginViewModel(), screenType: .login)
     }
     
     func registerUser(with email: String, password: String, onComplete: ((AccountError?) -> ())?) {

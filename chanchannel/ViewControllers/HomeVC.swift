@@ -99,7 +99,7 @@ extension HomeVC {
     }
 }
 
-extension HomeVC: LoginScreenProtocol {
+extension HomeVC: RegisterOrLoginScreenProtocol {
     func loginScreenDidDismiss() {
         setupLeftBarButtonItems()
     }

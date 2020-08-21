@@ -1,5 +1,5 @@
 //
-//  LoginHeaderView.swift
+//  RegisterOrLoginHeaderView.swift
 //  chanchannel
 //
 //  Created by Odan on 20/8/20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class LoginHeaderView: UIView {
+final class RegisterOrLoginHeaderView: UIView {
     private(set) lazy var titleLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.textAlignment = .center
