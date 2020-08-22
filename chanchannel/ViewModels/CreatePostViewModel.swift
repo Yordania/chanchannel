@@ -10,6 +10,8 @@ import Foundation
 import Firebase
 
 final class CreatePostViewModel {
+    
+    private lazy var dataHelper: DataHelperProtocol = DataHelper()
     var post: Post
     
     init() {
@@ -21,10 +23,7 @@ final class CreatePostViewModel {
         let accountHelper = AccountHelper()
         post.userId = accountHelper.currentUser?.uid
         post.author = accountHelper.currentUser?.displayName
-        let db = Firestore.firestore()
-        let _ = try? db.collection("posts").addDocument(from: post) { (error) in
-            guard let _error = error else { return }
-            debugPrint("there is an error \(#function) \(_error.localizedDescription)")
-        }
+        dataHelper.addPost(post, onComplete: nil)
     }
+    
 }

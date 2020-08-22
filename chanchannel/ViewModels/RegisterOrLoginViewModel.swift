@@ -11,7 +11,7 @@ import Firebase
 
 final class RegisterOrLoginViewModel {
     
-    private lazy var accountHelper: AccountHelper = AccountHelper()
+    private lazy var accountHelper: AccountHelperProtocol = AccountHelper()
     let minPasswordLength = 8
     var email: String = ""
     var password: String = ""

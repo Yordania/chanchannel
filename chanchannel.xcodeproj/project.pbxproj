@@ -10,6 +10,7 @@
 		07F4CAF2197F67F3E1C5BD16 /* Pods_chanchannel_chanchannelUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA48E2A095B2834C476660F6 /* Pods_chanchannel_chanchannelUITests.framework */; };
 		285E2ABBB70AB2EF9D348EA8 /* Pods_chanchannelTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C5F181D85C985A605EAFA09 /* Pods_chanchannelTests.framework */; };
 		8E66A0494ADC804553BE15AE /* Pods_chanchannel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3426FC6D01318419DBC71960 /* Pods_chanchannel.framework */; };
+		E83CAE4D24F18F6700DACE46 /* DataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E83CAE4C24F18F6700DACE46 /* DataHelper.swift */; };
 		E84BB72B24E6C20F0086BD55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84BB72A24E6C20F0086BD55 /* AppDelegate.swift */; };
 		E84BB72D24E6C20F0086BD55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84BB72C24E6C20F0086BD55 /* SceneDelegate.swift */; };
 		E84BB73124E6C2110086BD55 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E84BB73024E6C2110086BD55 /* Assets.xcassets */; };
@@ -62,6 +63,7 @@
 		B728950ACDEFFC35ABE58DFF /* Pods-chanchannel.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-chanchannel.release.xcconfig"; path = "Target Support Files/Pods-chanchannel/Pods-chanchannel.release.xcconfig"; sourceTree = "<group>"; };
 		D1D45D219E9CB1F555848E16 /* Pods-chanchannel-chanchannelUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-chanchannel-chanchannelUITests.release.xcconfig"; path = "Target Support Files/Pods-chanchannel-chanchannelUITests/Pods-chanchannel-chanchannelUITests.release.xcconfig"; sourceTree = "<group>"; };
 		E64923EBEE020E780AD9D7A9 /* Pods-chanchannelTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-chanchannelTests.debug.xcconfig"; path = "Target Support Files/Pods-chanchannelTests/Pods-chanchannelTests.debug.xcconfig"; sourceTree = "<group>"; };
+		E83CAE4C24F18F6700DACE46 /* DataHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataHelper.swift; sourceTree = "<group>"; };
 		E84BB72724E6C20F0086BD55 /* chanchannel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = chanchannel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E84BB72A24E6C20F0086BD55 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E84BB72C24E6C20F0086BD55 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -252,6 +254,7 @@
 				E87EEBB024EE52D40012F87B /* AccountHelper.swift */,
 				E87EEBB824EE5BD60012F87B /* AssetsColor.swift */,
 				E87EEBBA24EE63650012F87B /* ArrayExtension.swift */,
+				E83CAE4C24F18F6700DACE46 /* DataHelper.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -516,6 +519,7 @@
 				E87EEBAF24EA97A60012F87B /* ComposePostCell.swift in Sources */,
 				E84BB72B24E6C20F0086BD55 /* AppDelegate.swift in Sources */,
 				E8EA1CEC24EE6D3F00D7BF29 /* RegisterOrLoginViewModel.swift in Sources */,
+				E83CAE4D24F18F6700DACE46 /* DataHelper.swift in Sources */,
 				E87EEBB524EE578F0012F87B /* RegisterOrLoginHeaderView.swift in Sources */,
 				E84BB75E24E6C7E50086BD55 /* HomeVC.swift in Sources */,
 				E84BB72D24E6C20F0086BD55 /* SceneDelegate.swift in Sources */,

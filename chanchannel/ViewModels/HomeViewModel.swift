@@ -11,7 +11,8 @@ import Firebase
 
 final class HomeViewModel {
     
-    private lazy var accountHelper: AccountHelper = AccountHelper()
+    private lazy var accountHelper: AccountHelperProtocol = AccountHelper()
+    private lazy var dataHelper: DataHelperProtocol = DataHelper()
     var posts: [Post] = []
     
     var isUserAlreadyLogin: Bool {
@@ -27,30 +28,14 @@ final class HomeViewModel {
     }
     
     func fetchData(_ onComplete: (() -> ())? = nil) {
-        let db = Firestore.firestore()
-        db.collection("posts").order(by: "createdAt", descending: true).getDocuments { [weak self] (querySnapshot, error) in
-            guard let documents = querySnapshot?.documents else {
-              print("No documents")
-              return
-            }
-
-            let posts = documents.compactMap { queryDocumentSnapshot -> Post? in
-              return try? queryDocumentSnapshot.data(as: Post.self)
-            }
+        dataHelper.getPosts { [weak self] (posts, error) in
             self?.posts = posts
-            debugPrint("\(posts)")
-            debugPrint(posts.count)
             onComplete?()
         }
     }
     
-    func removePost(_ post: Post, onComplete: ((Error?) -> ())?) {
-        guard let postId = post.id else {
-            onComplete?(nil)
-            return
-        }
-        let db = Firestore.firestore()
-        db.collection("posts").document(postId).delete(completion: onComplete)
+    func removePost(_ post: Post, onComplete: ((DataError?) -> ())?) {
+        dataHelper.deletePost(post, onComplete: onComplete)
     }
     
     func isOwnedPost(_ post: Post) -> Bool {
