@@ -30,6 +30,7 @@ final class HomeVC: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupLeftBarButtonItems()
+        reloadData()
     }
     
     private func setupComponents() {
@@ -38,11 +39,6 @@ final class HomeVC: UITableViewController {
         refreshControl = UIRefreshControl()
         refreshControl?.attributedTitle = NSAttributedString(string: "Reloading")
         refreshControl?.addTarget(self, action: #selector(pullToRefreshDidInitate), for: .valueChanged)
-        
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        viewModel.fetchData() { [weak self] in
-            self?.tableView.reloadData()
-        }
     }
     
     private func setupLeftBarButtonItems() {
@@ -51,10 +47,16 @@ final class HomeVC: UITableViewController {
         }
     }
     
-    @objc private func pullToRefreshDidInitate(_ sender: UIRefreshControl) {
+    private func reloadData(_ onComplete: (() -> ())? = nil) {
         viewModel.fetchData() { [weak self] in
-            self?.refreshControl?.endRefreshing()
             self?.tableView.reloadData()
+            onComplete?()
+        }
+    }
+    
+    @objc private func pullToRefreshDidInitate(_ sender: UIRefreshControl) {
+        reloadData {
+            sender.endRefreshing()
         }
     }
     
@@ -92,11 +94,39 @@ extension HomeVC {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.numberOfLines = 0
-        cell.textLabel?.text = viewModel.posts[indexPath.row].body
+        let cell: UITableViewCell
+        if let _cell = tableView.dequeueReusableCell(withIdentifier: "cell") {
+            cell = _cell
+        } else {
+            cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
+        }
+        cell.textLabel?.numberOfLines = 5
+        if let post = viewModel.posts[safe: indexPath.row] {
+            cell.textLabel?.text = post.body
+            cell.detailTextLabel?.text = post.author
+        }
         return cell
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard let post = viewModel.posts[safe: indexPath.row],
+            viewModel.isOwnedPost(post) else { return nil }
+        
+        let action = UIContextualAction(style: .destructive, title: "Delete", handler: { [weak self] (action, view, completionHandler) in
+            self?.viewModel.removePost(post, onComplete: { (error) in
+                self?.reloadData()
+            })
+            completionHandler(true)
+        })
+
+        let configuration = UISwipeActionsConfiguration(actions: [action])
+        return configuration
+    }
+    
 }
 
 extension HomeVC: RegisterOrLoginScreenProtocol {

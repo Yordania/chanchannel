@@ -14,7 +14,7 @@ final class CreatePostViewModel {
     
     init() {
         let date = Date()
-        self.post = Post(id: nil, body: "", userId: nil, author: nil, likes: nil, createdAt: Timestamp(date: date), updatedAt: Timestamp(date: date))
+        self.post = Post(id: nil, body: "", userId: nil, author: nil, createdAt: Timestamp(date: date), updatedAt: Timestamp(date: date))
     }
     
     func addData() {

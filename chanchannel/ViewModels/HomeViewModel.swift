@@ -44,11 +44,17 @@ final class HomeViewModel {
         }
     }
     
-    func addData(_ data: Post) {
-        let db = Firestore.firestore()
-        let _ = try? db.collection("posts").addDocument(from: data) { (error) in
-            guard let _error = error else { return }
-            debugPrint("there is an error \(#function) \(_error.localizedDescription)")
+    func removePost(_ post: Post, onComplete: ((Error?) -> ())?) {
+        guard let postId = post.id else {
+            onComplete?(nil)
+            return
         }
+        let db = Firestore.firestore()
+        db.collection("posts").document(postId).delete(completion: onComplete)
+    }
+    
+    func isOwnedPost(_ post: Post) -> Bool {
+        guard let currentUser = accountHelper.currentUser else { return false }
+        return post.userId == currentUser.uid
     }
 }

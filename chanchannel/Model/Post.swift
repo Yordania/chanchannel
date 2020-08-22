@@ -23,7 +23,6 @@ struct Post: Identifiable, Codable, Comparable {
     var body: String
     var userId: String?
     var author: String?
-    var likes: Int?
     var createdAt: Timestamp
     var updatedAt: Timestamp?
 }
