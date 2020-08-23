@@ -46,6 +46,7 @@ final class HomeVC: UITableViewController {
         
         tableView.isSkeletonable = true
         tableView.register(TimelinePostCell.self, forCellReuseIdentifier: "postCell")
+        tableView.register(TimelinePostCell.self, forCellReuseIdentifier: "postCellSkeleton")
         
         refreshControl = UIRefreshControl()
         refreshControl?.attributedTitle = NSAttributedString(string: "Reloading")
@@ -123,6 +124,10 @@ extension HomeVC {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard !isFirstTimeLoad else {
+            return tableView.dequeueReusableCell(withIdentifier: "postCellSkeleton", for: indexPath)
+        }
+        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "postCell", for: indexPath) as? TimelinePostCell else {
             return UITableViewCell()
         }
@@ -160,7 +165,7 @@ extension HomeVC {
 
 extension HomeVC: SkeletonTableViewDataSource {
     func collectionSkeletonView(_ skeletonView: UITableView, cellIdentifierForRowAt indexPath: IndexPath) -> ReusableCellIdentifier {
-        return "postCell"
+        return "postCellSkeleton"
     }
 }
 
