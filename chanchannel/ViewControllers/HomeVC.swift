@@ -12,6 +12,13 @@ import Firebase
 final class HomeVC: UITableViewController {
     
     private let viewModel: HomeViewModel
+    private lazy var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        formatter.doesRelativeDateFormatting = true
+        return formatter
+    }()
     
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
@@ -35,6 +42,8 @@ final class HomeVC: UITableViewController {
     
     private func setupComponents() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonDidTap))
+        
+        tableView.register(TimelinePostCell.self, forCellReuseIdentifier: "postCell")
         
         refreshControl = UIRefreshControl()
         refreshControl?.attributedTitle = NSAttributedString(string: "Reloading")
@@ -94,16 +103,13 @@ extension HomeVC {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: UITableViewCell
-        if let _cell = tableView.dequeueReusableCell(withIdentifier: "cell") {
-            cell = _cell
-        } else {
-            cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "postCell", for: indexPath) as? TimelinePostCell else {
+            return UITableViewCell()
         }
-        cell.textLabel?.numberOfLines = 5
         if let post = viewModel.posts[safe: indexPath.row] {
-            cell.textLabel?.text = post.body
-            cell.detailTextLabel?.text = post.author
+            cell.postLabelView.text = post.body
+            cell.setAuthor(post.author)
+            cell.dateLabelView.text = dateFormatter.string(from: post.createdAt.dateValue())
         }
         return cell
     }

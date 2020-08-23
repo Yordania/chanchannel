@@ -12,6 +12,7 @@ final class ComposePostCell: UITableViewCell {
     private(set) lazy var textView: UITextView = {
         let textView = UITextView(frame: .zero)
         textView.font = UIFont.systemFont(ofSize: 16)
+        textView.backgroundColor = .secondarySystemFill
         return textView
     }()
     
