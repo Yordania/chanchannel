@@ -51,8 +51,8 @@ final class HomeVC: UITableViewController {
         viewModel.fetchData() { [weak self] error in
             self?.tableView.reloadData()
             onComplete?()
-            if let _self = self {
-                AlertHelper.showOKAlert(error?.title, message: error?.message, onController: _self, onHandleAction: nil, onComplete: nil)
+            if let _error = error, let _self = self {
+                AlertHelper.showOKAlert(_error.title, message: _error.message, onController: _self, onHandleAction: nil, onComplete: nil)
             }
         }
     }
