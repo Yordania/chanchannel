@@ -121,26 +121,23 @@ final class RegisterOrLoginVC: UITableViewController {
     
     @objc private func primaryButtonDidTap(_ sender: UIButton) {
         view.endEditing(true)
+        view.showLoaderView()
+        
+        let handler: ((AccountError?) -> ()) = { [weak self] (error) in
+            self?.view.hideLoaderView()
+            guard let _error = error else {
+                self?.dismissScreen()
+                return
+            }
+            
+            self?.showAlert(with: _error)
+        }
         
         switch screenType {
         case .login:
-            viewModel.doLogin { [weak self] (error) in
-                guard let _error = error else {
-                    self?.dismissScreen()
-                    return
-                }
-                
-                self?.showAlert(with: _error)
-            }
+            viewModel.doLogin(onComplete: handler)
         case .register:
-            viewModel.doRegister { [weak self] (error) in
-                guard let _error = error else {
-                    self?.dismissScreen()
-                    return
-                }
-                
-                self?.showAlert(with: _error)
-            }
+            viewModel.doRegister(onComplete: handler)
         }
     }
     

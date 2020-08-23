@@ -37,6 +37,8 @@
 		E88D54B524F27CC900E2A553 /* AccountHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88D54B424F27CC900E2A553 /* AccountHelperTests.swift */; };
 		E88D54B724F2850900E2A553 /* CreatePostViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88D54B624F2850900E2A553 /* CreatePostViewModelTests.swift */; };
 		E88D54B924F2ABED00E2A553 /* TimelinePostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88D54B824F2ABED00E2A553 /* TimelinePostCell.swift */; };
+		E88D54BB24F2E3BE00E2A553 /* LoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88D54BA24F2E3BE00E2A553 /* LoaderView.swift */; };
+		E88D54BD24F2E78500E2A553 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88D54BC24F2E78500E2A553 /* UIViewExtension.swift */; };
 		E8BFCE1924E6CC6E0011C994 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E8BFCE1824E6CC6E0011C994 /* GoogleService-Info.plist */; };
 		E8BFCE1B24EA5E630011C994 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8BFCE1A24EA5E630011C994 /* Post.swift */; };
 		E8EA1CEC24EE6D3F00D7BF29 /* RegisterOrLoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8EA1CEB24EE6D3F00D7BF29 /* RegisterOrLoginViewModel.swift */; };
@@ -101,6 +103,8 @@
 		E88D54B424F27CC900E2A553 /* AccountHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountHelperTests.swift; sourceTree = "<group>"; };
 		E88D54B624F2850900E2A553 /* CreatePostViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewModelTests.swift; sourceTree = "<group>"; };
 		E88D54B824F2ABED00E2A553 /* TimelinePostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelinePostCell.swift; sourceTree = "<group>"; };
+		E88D54BA24F2E3BE00E2A553 /* LoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderView.swift; sourceTree = "<group>"; };
+		E88D54BC24F2E78500E2A553 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		E8BFCE1824E6CC6E0011C994 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E8BFCE1A24EA5E630011C994 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		E8EA1CEB24EE6D3F00D7BF29 /* RegisterOrLoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterOrLoginViewModel.swift; sourceTree = "<group>"; };
@@ -269,6 +273,7 @@
 				E87EEBBA24EE63650012F87B /* ArrayExtension.swift */,
 				E83CAE4C24F18F6700DACE46 /* DataHelper.swift */,
 				E88D54AC24F2370E00E2A553 /* AlertHelper.swift */,
+				E88D54BC24F2E78500E2A553 /* UIViewExtension.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -281,6 +286,7 @@
 				E87EEBB624EE57F20012F87B /* TextInputCell.swift */,
 				E87EEBBC24EE67C60012F87B /* RegisterOrLoginFooterView.swift */,
 				E88D54B824F2ABED00E2A553 /* TimelinePostCell.swift */,
+				E88D54BA24F2E3BE00E2A553 /* LoaderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -527,9 +533,11 @@
 			files = (
 				E84BB76024E6C81E0086BD55 /* SuperVC.swift in Sources */,
 				E87EEBAA24EA800C0012F87B /* NSLayoutConstraintExtension.swift in Sources */,
+				E88D54BB24F2E3BE00E2A553 /* LoaderView.swift in Sources */,
 				E87EEBB324EE54000012F87B /* RegisterOrLoginVC.swift in Sources */,
 				E87EEBA324EA7CDC0012F87B /* HomeViewModel.swift in Sources */,
 				E87EEBAC24EA96920012F87B /* CreatePostViewModel.swift in Sources */,
+				E88D54BD24F2E78500E2A553 /* UIViewExtension.swift in Sources */,
 				E87EEBB124EE52D40012F87B /* AccountHelper.swift in Sources */,
 				E87EEBAF24EA97A60012F87B /* ComposePostCell.swift in Sources */,
 				E84BB72B24E6C20F0086BD55 /* AppDelegate.swift in Sources */,

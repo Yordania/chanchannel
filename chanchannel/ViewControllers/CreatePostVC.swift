@@ -33,7 +33,10 @@ final class CreatePostVC: UITableViewController {
     }
     
     @objc private func postButtonDidTap(_ sender: UIBarButtonItem) {
+        view.endEditing(true)
+        view.showLoaderView()
         viewModel.addData { [weak self] (error) in
+            self?.view.hideLoaderView()
             guard let _error = error else {
                 self?.navigationController?.dismiss(animated: true, completion: nil)
                 return
