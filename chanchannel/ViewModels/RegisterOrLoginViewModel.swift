@@ -17,6 +17,10 @@ final class RegisterOrLoginViewModel {
     var password: String = ""
     var name: String = ""
     
+    init(accountHelper: AccountHelperProtocol = AccountHelper()) {
+        self.accountHelper = accountHelper
+    }
+    
     func doRegister(onComplete: ((AccountError?) -> ())?) {
         accountHelper.registerUser(with: email, password: password) { [weak self] (accountError) in
             if let error = accountError {

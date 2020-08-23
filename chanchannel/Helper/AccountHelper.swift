@@ -42,33 +42,33 @@ protocol AccountHelperProtocol {
     func logoutUser(_ onComplete: ((AccountError?) -> ())?)
 }
 
-protocol FirebaseAuthDataResultType {
+protocol FirebaseAccountServiceResultType {
     var user: User { get }
 }
 
-extension AuthDataResult: FirebaseAuthDataResultType {}
+extension AuthDataResult: FirebaseAccountServiceResultType {}
 
-typealias FirebaseAuthDataResultTypeCallback = (FirebaseAuthDataResultType?, Error?) -> ()
+typealias FirebaseAccountServiceCallback = (FirebaseAccountServiceResultType?, Error?) -> ()
 
-protocol FirebaseAuthenticationType {
+protocol FirebaseAccountService {
     var user: User? { get }
-    func createUser(withEmail email: String, password: String, completion: FirebaseAuthDataResultTypeCallback?)
-    func signIn(withEmail email: String, password: String, completion: FirebaseAuthDataResultTypeCallback?)
+    func createUser(withEmail email: String, password: String, completion: FirebaseAccountServiceCallback?)
+    func signIn(withEmail email: String, password: String, completion: FirebaseAccountServiceCallback?)
     func signOut() throws
     func updateDisplayName(with name: String, completion: UserProfileChangeCallback?)
 }
 
-extension Auth: FirebaseAuthenticationType {
+extension Auth: FirebaseAccountService {
     var user: User? {
         return currentUser
     }
     
-    func createUser(withEmail email: String, password: String, completion: FirebaseAuthDataResultTypeCallback?) {
+    func createUser(withEmail email: String, password: String, completion: FirebaseAccountServiceCallback?) {
         let completion = completion as AuthDataResultCallback?
         createUser(withEmail: email, password: password, completion: completion)
     }
     
-    func signIn(withEmail email: String, password: String, completion: FirebaseAuthDataResultTypeCallback?) {
+    func signIn(withEmail email: String, password: String, completion: FirebaseAccountServiceCallback?) {
         let completion = completion as AuthDataResultCallback?
         signIn(withEmail: email, password: password, completion: completion)
     }
@@ -81,9 +81,9 @@ extension Auth: FirebaseAuthenticationType {
 }
 
 class AccountHelper: AccountHelperProtocol {
-    private let authenticationService: FirebaseAuthenticationType
+    private let authenticationService: FirebaseAccountService
     
-    init(authenticationService: FirebaseAuthenticationType = Auth.auth()) {
+    init(authenticationService: FirebaseAccountService = Auth.auth()) {
         self.authenticationService = authenticationService
     }
     

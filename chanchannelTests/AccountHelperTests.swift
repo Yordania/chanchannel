@@ -13,12 +13,12 @@ import Firebase
 final class AccountHelperTests: XCTestCase {
     
     func testLogin() {
-        let firebaseAuthService = MockFirebaseAuthenticationService()
+        let firebaseAuthService = MockFirebaseAccountService()
         let expectedUID = "aM1RyjpaZcQ4EhaUvDAeCnla3HX2"
         let expectedEmail = "johndoe@mail.com"
         firebaseAuthService.authDataResultFactory = {
             let user = MockUser(testingUID: expectedUID, testingEmail: expectedEmail)
-            let authDataResult = MockFirebaseAuthDataResult(user: user)
+            let authDataResult = MockFirebaseAccountDataResult(user: user)
             return (authDataResult, nil)
         }
         
@@ -46,7 +46,7 @@ final class AccountHelperTests: XCTestCase {
     }
     
     func testErrorLogin() {
-        let firebaseAuthService = MockFirebaseAuthenticationService()
+        let firebaseAuthService = MockFirebaseAccountService()
         let expectedEmail = "johndoe@mail.com"
         firebaseAuthService.authDataResultFactory = {
             return (nil, NSError(domain: "", code: AuthErrorCode.internalError.rawValue, userInfo: nil))
@@ -66,7 +66,7 @@ final class AccountHelperTests: XCTestCase {
     }
     
     func testWrongPasswordErrorLogin() {
-        let firebaseAuthService = MockFirebaseAuthenticationService()
+        let firebaseAuthService = MockFirebaseAccountService()
         let expectedEmail = "johndoe@mail.com"
         firebaseAuthService.authDataResultFactory = {
             return (nil, NSError(domain: "", code: AuthErrorCode.wrongPassword.rawValue, userInfo: nil))
@@ -86,12 +86,12 @@ final class AccountHelperTests: XCTestCase {
     }
     
     func testRegister() {
-        let firebaseAuthService = MockFirebaseAuthenticationService()
+        let firebaseAuthService = MockFirebaseAccountService()
         let expectedUID = "aM1RyjpaZcQ4EhaUvDAeCnla3HX2"
         let expectedEmail = "johndoe@mail.com"
         firebaseAuthService.authDataResultFactory = {
             let user = MockUser(testingUID: expectedUID, testingEmail: expectedEmail)
-            let authDataResult = MockFirebaseAuthDataResult(user: user)
+            let authDataResult = MockFirebaseAccountDataResult(user: user)
             return (authDataResult, nil)
         }
         
@@ -119,7 +119,7 @@ final class AccountHelperTests: XCTestCase {
     }
     
     func testErrorRegister() {
-        let firebaseAuthService = MockFirebaseAuthenticationService()
+        let firebaseAuthService = MockFirebaseAccountService()
         let expectedEmail = "johndoe@mail.com"
         firebaseAuthService.authDataResultFactory = {
             return (nil, NSError(domain: "", code: AuthErrorCode.internalError.rawValue, userInfo: nil))
@@ -139,13 +139,13 @@ final class AccountHelperTests: XCTestCase {
     }
     
     func testUpdateDisplayName() {
-        let firebaseAuthService = MockFirebaseAuthenticationService()
+        let firebaseAuthService = MockFirebaseAccountService()
         let expectedUID = "aM1RyjpaZcQ4EhaUvDAeCnla3HX2"
         let expectedEmail = "johndoe@mail.com"
         let expectedName = "John Doe"
         firebaseAuthService.authDataResultFactory = {
             let user = MockUser(testingUID: expectedUID, testingEmail: expectedEmail, testingDisplayName: expectedName)
-            let authDataResult = MockFirebaseAuthDataResult(user: user)
+            let authDataResult = MockFirebaseAccountDataResult(user: user)
             return (authDataResult, nil)
         }
         
@@ -177,7 +177,7 @@ final class AccountHelperTests: XCTestCase {
     }
     
     func testErrorUpdateDisplayName() {
-        let firebaseAuthService = MockFirebaseAuthenticationService()
+        let firebaseAuthService = MockFirebaseAccountService()
         let expectedName = "John Doe"
         firebaseAuthService.authDataResultFactory = {
             return (nil, NSError(domain: "", code: AuthErrorCode.internalError.rawValue, userInfo: nil))
@@ -197,12 +197,12 @@ final class AccountHelperTests: XCTestCase {
     }
     
     func testLogout() {
-        let firebaseAuthService = MockFirebaseAuthenticationService()
+        let firebaseAuthService = MockFirebaseAccountService()
         let expectedUID = "aM1RyjpaZcQ4EhaUvDAeCnla3HX2"
         let expectedEmail = "johndoe@mail.com"
         firebaseAuthService.authDataResultFactory = {
             let user = MockUser(testingUID: expectedUID, testingEmail: expectedEmail)
-            let authDataResult = MockFirebaseAuthDataResult(user: user)
+            let authDataResult = MockFirebaseAccountDataResult(user: user)
             return (authDataResult, nil)
         }
         
@@ -220,7 +220,7 @@ final class AccountHelperTests: XCTestCase {
     }
     
     func testErrorLogout() {
-        let firebaseAuthService = MockFirebaseAuthenticationService()
+        let firebaseAuthService = MockFirebaseAccountService()
         firebaseAuthService.authDataResultFactory = {
             return (nil, NSError(domain: "", code: AuthErrorCode.internalError.rawValue, userInfo: nil))
         }

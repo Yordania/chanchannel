@@ -11,8 +11,8 @@ import Firebase
 
 class HomeViewModel {
     
-    private var accountHelper: AccountHelperProtocol
-    private var dataHelper: DataHelperProtocol
+    private let accountHelper: AccountHelperProtocol
+    private let dataHelper: DataHelperProtocol
     var posts: [Post] = []
     
     init(accountHelper: AccountHelperProtocol = AccountHelper(), dataHelper: DataHelperProtocol = DataHelper()) {

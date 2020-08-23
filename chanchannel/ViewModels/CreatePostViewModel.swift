@@ -11,11 +11,13 @@ import Firebase
 
 final class CreatePostViewModel {
     
-    private lazy var accountHelper: AccountHelperProtocol = AccountHelper()
-    private lazy var dataHelper: DataHelperProtocol = DataHelper()
+    private let accountHelper: AccountHelperProtocol
+    private let dataHelper: DataHelperProtocol
     var post: Post
     
-    init() {
+    init(accountHelper: AccountHelperProtocol = AccountHelper(), dataHelper: DataHelperProtocol = DataHelper()) {
+        self.accountHelper = accountHelper
+        self.dataHelper = dataHelper
         let date = Date()
         self.post = Post(id: nil, body: "", userId: nil, author: nil, createdAt: Timestamp(date: date), updatedAt: Timestamp(date: date))
     }

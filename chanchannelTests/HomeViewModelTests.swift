@@ -15,23 +15,24 @@ final class HomeViewModelTests: XCTestCase {
     private let expectedUID = "aM1RyjpaZcQ4EhaUvDAeCnla3HX2"
     private let expectedEmail = "johndoe@mail.com"
     private let expectedUsername = "John Doe"
-    private var mockLoginAuthService: FirebaseAuthenticationType {
-        let firebaseAuthService = MockFirebaseAuthenticationService()
-        firebaseAuthService.authDataResultFactory = { [weak self] in
+    private var mockLoginAccountService: FirebaseAccountService {
+        let firebaseAccountService = MockFirebaseAccountService()
+        firebaseAccountService.authDataResultFactory = { [weak self] in
             let user = MockUser(testingUID: self?.expectedUID ?? "", testingEmail: self?.expectedEmail)
-            let authDataResult = MockFirebaseAuthDataResult(user: user)
+            let authDataResult = MockFirebaseAccountDataResult(user: user)
             return (authDataResult, nil)
         }
-        return firebaseAuthService
+        return firebaseAccountService
     }
-    private var mockNotLoginAuthService: FirebaseAuthenticationType {
-        let firebaseAuthService = MockFirebaseAuthenticationService()
-        return firebaseAuthService
+    private var mockNotLoginAccountService: FirebaseAccountService {
+        let firebaseAccountService = MockFirebaseAccountService()
+        return firebaseAccountService
     }
     
     func testFetchDataWhenDataIsStillEmpty() {
-        let mockAccountHelper = MockAccountHelper(authenticationService: mockLoginAuthService)
-        let mockDataHelper = MockDataHelper()
+        let mockAccountHelper = MockAccountHelper(authenticationService: mockLoginAccountService)
+        let mockEmptyDatabaseService = MockFirebaseDatabaseService()
+        let mockDataHelper = DataHelper(databaseService: mockEmptyDatabaseService, collectionName: "unit_testing")
         let viewModel = HomeViewModel(accountHelper: mockAccountHelper, dataHelper: mockDataHelper)
         let postsExpectation = expectation(description: "posts")
         var posts: [Post]?
@@ -46,14 +47,13 @@ final class HomeViewModelTests: XCTestCase {
     }
     
     func testFetchDataWith1Post() {
-        let mockAccountHelper = MockAccountHelper(authenticationService: mockLoginAuthService)
-        let mockDataHelper = MockDataHelper()
-        let viewModel = HomeViewModel(accountHelper: mockAccountHelper, dataHelper: mockDataHelper)
-        
-        let id = UUID().uuidString
+        let mockAccountHelper = MockAccountHelper(authenticationService: mockLoginAccountService)
+        let id = "Post1"
         let timeStamp = Timestamp(date: Date())
         let post = Post(id: id, body: "Post1", userId: expectedUID, author: expectedUsername, createdAt: timeStamp, updatedAt: timeStamp)
-        mockDataHelper.addPost(post, onComplete: nil)
+        let mockDatabaseService = MockFirebaseDatabaseService(posts: [post], error: nil)
+        let mockDataHelper = DataHelper(databaseService: mockDatabaseService, collectionName: "unit_testing")
+        let viewModel = HomeViewModel(accountHelper: mockAccountHelper, dataHelper: mockDataHelper)
         
         let postsExpectation = expectation(description: "posts")
         var posts: [Post]?
@@ -63,38 +63,42 @@ final class HomeViewModelTests: XCTestCase {
         }
         waitForExpectations(timeout: 1) { (_) in
             XCTAssertNotNil(posts)
-            XCTAssertEqual(posts!.first!.id!, id)
             XCTAssertEqual(posts!.count, 1)
+            XCTAssertEqual(posts!.first!.id!, id)
         }
     }
     
-    func testRemoveDataWithFetchData() {
-        let mockAccountHelper = MockAccountHelper(authenticationService: mockLoginAuthService)
-        let mockDataHelper = MockDataHelper()
-        let viewModel = HomeViewModel(accountHelper: mockAccountHelper, dataHelper: mockDataHelper)
-        
-        let id = UUID().uuidString
+    func testSuccessRemoveDataWithFetchData() {
+        let mockAccountHelper = MockAccountHelper(authenticationService: mockLoginAccountService)
+        let id = "Post1"
         let timeStamp = Timestamp(date: Date())
         let post = Post(id: id, body: "Post1", userId: expectedUID, author: expectedUsername, createdAt: timeStamp, updatedAt: timeStamp)
-        mockDataHelper.addPost(post, onComplete: nil)
+        let mockDatabaseService = MockFirebaseDatabaseService(posts: [post], error: nil)
+        let mockDataHelper = DataHelper(databaseService: mockDatabaseService, collectionName: "unit_testing")
+        let viewModel = HomeViewModel(accountHelper: mockAccountHelper, dataHelper: mockDataHelper)
         
-        let postsExpectation = expectation(description: "posts")
+        let removePostExpectation = expectation(description: "remove")
+        let fetchPostExpectation = expectation(description: "fetch")
         var posts: [Post]?
         viewModel.removePost(post) { (error) in
+            removePostExpectation.fulfill()
             viewModel.fetchData { (erorr) in
                 posts = viewModel.posts
-                postsExpectation.fulfill()
+                fetchPostExpectation.fulfill()
             }
         }
-        waitForExpectations(timeout: 1) { (_) in
+        
+        let result = XCTWaiter().wait(for: [removePostExpectation, fetchPostExpectation], timeout: 2, enforceOrder: true)
+        if result == .completed {
             XCTAssertNotNil(posts)
             XCTAssertEqual(posts!.count, 0)
         }
     }
     
     func testIsOwnedPost() {
-        let mockAccountHelper = MockAccountHelper(authenticationService: mockLoginAuthService)
-        let mockDataHelper = MockDataHelper()
+        let mockAccountHelper = MockAccountHelper(authenticationService: mockLoginAccountService)
+        let mockDatabaseService = MockFirebaseDatabaseService()
+        let mockDataHelper = DataHelper(databaseService: mockDatabaseService, collectionName: "unit_testing")
         let viewModel = HomeViewModel(accountHelper: mockAccountHelper, dataHelper: mockDataHelper)
         
         let id = UUID().uuidString
@@ -105,8 +109,9 @@ final class HomeViewModelTests: XCTestCase {
     }
     
     func testIsNotOwnedPost() {
-        let mockAccountHelper = MockAccountHelper(authenticationService: mockLoginAuthService)
-        let mockDataHelper = MockDataHelper()
+        let mockAccountHelper = MockAccountHelper(authenticationService: mockLoginAccountService)
+        let mockDatabaseService = MockFirebaseDatabaseService()
+        let mockDataHelper = DataHelper(databaseService: mockDatabaseService, collectionName: "unit_testing")
         let viewModel = HomeViewModel(accountHelper: mockAccountHelper, dataHelper: mockDataHelper)
         
         let id = UUID().uuidString
@@ -117,16 +122,18 @@ final class HomeViewModelTests: XCTestCase {
     }
     
     func testIsUserLogin() {
-        let mockAccountHelper = MockAccountHelper(authenticationService: mockLoginAuthService)
-        let mockDataHelper = MockDataHelper()
+        let mockAccountHelper = MockAccountHelper(authenticationService: mockLoginAccountService)
+        let mockDatabaseService = MockFirebaseDatabaseService()
+        let mockDataHelper = DataHelper(databaseService: mockDatabaseService, collectionName: "unit_testing")
         let viewModel = HomeViewModel(accountHelper: mockAccountHelper, dataHelper: mockDataHelper)
         
         XCTAssertTrue(viewModel.isUserAlreadyLogin)
     }
     
     func testIsUserNotLogin() {
-        let mockAccountHelper = MockAccountHelper(authenticationService: mockNotLoginAuthService)
-        let mockDataHelper = MockDataHelper()
+        let mockAccountHelper = MockAccountHelper(authenticationService: mockNotLoginAccountService)
+        let mockDatabaseService = MockFirebaseDatabaseService()
+        let mockDataHelper = DataHelper(databaseService: mockDatabaseService, collectionName: "unit_testing")
         let viewModel = HomeViewModel(accountHelper: mockAccountHelper, dataHelper: mockDataHelper)
         
         XCTAssertFalse(viewModel.isUserAlreadyLogin)

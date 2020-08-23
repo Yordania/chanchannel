@@ -22,22 +22,22 @@ class MockUser: User {
     }
 }
 
-struct MockFirebaseAuthDataResult: FirebaseAuthDataResultType {
+struct MockFirebaseAccountDataResult: FirebaseAccountServiceResultType {
     var user: User
 }
 
-class MockFirebaseAuthenticationService: FirebaseAuthenticationType {
-    typealias AuthDataResultType = (authDataResult: FirebaseAuthDataResultType?, error: Error?)
+class MockFirebaseAccountService: FirebaseAccountService {
+    typealias AuthDataResultType = (authDataResult: FirebaseAccountServiceResultType?, error: Error?)
     var authDataResultFactory: (() -> (AuthDataResultType))?
     var user: User? {
         return authDataResultFactory?().authDataResult?.user
     }
 
-    func signIn(withEmail email: String, password: String, completion: FirebaseAuthDataResultTypeCallback?) {
+    func signIn(withEmail email: String, password: String, completion: FirebaseAccountServiceCallback?) {
         completion?(authDataResultFactory?().authDataResult, authDataResultFactory?().error)
     }
     
-    func createUser(withEmail email: String, password: String, completion: FirebaseAuthDataResultTypeCallback?) {
+    func createUser(withEmail email: String, password: String, completion: FirebaseAccountServiceCallback?) {
         completion?(authDataResultFactory?().authDataResult, authDataResultFactory?().error)
     }
     
@@ -45,7 +45,9 @@ class MockFirebaseAuthenticationService: FirebaseAuthenticationType {
         if let error = authDataResultFactory?().error {
             throw error
         } else {
-            authDataResultFactory = nil
+            authDataResultFactory = {
+                return (nil, nil)
+            }
         }
     }
     
@@ -60,28 +62,36 @@ class MockAccountHelper: AccountHelper {
     }
 }
 
-class MockDataHelper: DataHelperProtocol {
-    private var posts: [Post] = []
+class MockFirebaseDatabaseService: FirebaseDatabaseService {
+    private var posts: [Post]?
+    private var error: Error?
     
-    var collectionName: String {
-        return "unit_testing"
+    init(posts: [Post]? = nil, error: Error? = nil) {
+        self.posts = posts
+        self.error = error
     }
     
-    func clearData() {
-        posts.removeAll()
+    func addPost(_ post: Post, collectionName: String, completion: ((Error?) -> ())?) {
+        if let _error = error {
+            completion?(_error)
+        } else {
+            posts?.append(post)
+        }
     }
     
-    func addPost(_ post: Post, onComplete: ((DataError?) -> ())?) {
-        posts.append(post)
-        onComplete?(nil)
+    func deletePost(_ postId: String, collectionName: String, completion: ((Error?) -> ())?) {
+        if let _error = error {
+            completion?(_error)
+        } else {
+            posts?.removeAll(where: { return $0.id == postId })
+        }
     }
     
-    func deletePost(_ post: Post, onComplete: ((DataError?) -> ())?) {
-        posts.removeAll(where: { return $0.id == post.id })
-        onComplete?(nil)
-    }
-    
-    func getPosts(_ onComplete: (([Post], DataError?) -> ())?) {
-        onComplete?(posts, nil)
+    func getPosts(collectionName: String, orderBy: String?, descending: Bool, completion: FirebaseDatabaseServiceCallback?) {
+        if let _error = error {
+            completion?([], _error)
+        } else {
+            completion?(posts ?? [], nil)
+        }
     }
 }
