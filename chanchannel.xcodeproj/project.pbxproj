@@ -16,7 +16,6 @@
 		E84BB73124E6C2110086BD55 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E84BB73024E6C2110086BD55 /* Assets.xcassets */; };
 		E84BB73424E6C2110086BD55 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E84BB73324E6C2110086BD55 /* Preview Assets.xcassets */; };
 		E84BB73724E6C2110086BD55 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E84BB73524E6C2110086BD55 /* LaunchScreen.storyboard */; };
-		E84BB74224E6C2110086BD55 /* chanchannelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84BB74124E6C2110086BD55 /* chanchannelTests.swift */; };
 		E84BB74D24E6C2110086BD55 /* chanchannelUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84BB74C24E6C2110086BD55 /* chanchannelUITests.swift */; };
 		E84BB75E24E6C7E50086BD55 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84BB75D24E6C7E50086BD55 /* HomeVC.swift */; };
 		E84BB76024E6C81E0086BD55 /* SuperVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84BB75F24E6C81E0086BD55 /* SuperVC.swift */; };
@@ -35,6 +34,7 @@
 		E88D54AD24F2370E00E2A553 /* AlertHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88D54AC24F2370E00E2A553 /* AlertHelper.swift */; };
 		E88D54AF24F245F200E2A553 /* HomeViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88D54AE24F245F200E2A553 /* HomeViewModelTests.swift */; };
 		E88D54B324F27C5200E2A553 /* MockClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88D54B224F27C5200E2A553 /* MockClass.swift */; };
+		E88D54B524F27CC900E2A553 /* AccountHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88D54B424F27CC900E2A553 /* AccountHelperTests.swift */; };
 		E8BFCE1924E6CC6E0011C994 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E8BFCE1824E6CC6E0011C994 /* GoogleService-Info.plist */; };
 		E8BFCE1B24EA5E630011C994 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8BFCE1A24EA5E630011C994 /* Post.swift */; };
 		E8EA1CEC24EE6D3F00D7BF29 /* RegisterOrLoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8EA1CEB24EE6D3F00D7BF29 /* RegisterOrLoginViewModel.swift */; };
@@ -75,7 +75,6 @@
 		E84BB73624E6C2110086BD55 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E84BB73824E6C2110086BD55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E84BB73D24E6C2110086BD55 /* chanchannelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = chanchannelTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		E84BB74124E6C2110086BD55 /* chanchannelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chanchannelTests.swift; sourceTree = "<group>"; };
 		E84BB74324E6C2110086BD55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E84BB74824E6C2110086BD55 /* chanchannelUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = chanchannelUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E84BB74C24E6C2110086BD55 /* chanchannelUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chanchannelUITests.swift; sourceTree = "<group>"; };
@@ -97,6 +96,7 @@
 		E88D54AC24F2370E00E2A553 /* AlertHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertHelper.swift; sourceTree = "<group>"; };
 		E88D54AE24F245F200E2A553 /* HomeViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModelTests.swift; sourceTree = "<group>"; };
 		E88D54B224F27C5200E2A553 /* MockClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockClass.swift; sourceTree = "<group>"; };
+		E88D54B424F27CC900E2A553 /* AccountHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountHelperTests.swift; sourceTree = "<group>"; };
 		E8BFCE1824E6CC6E0011C994 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E8BFCE1A24EA5E630011C994 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		E8EA1CEB24EE6D3F00D7BF29 /* RegisterOrLoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterOrLoginViewModel.swift; sourceTree = "<group>"; };
@@ -210,7 +210,7 @@
 			children = (
 				E88D54B224F27C5200E2A553 /* MockClass.swift */,
 				E88D54AE24F245F200E2A553 /* HomeViewModelTests.swift */,
-				E84BB74124E6C2110086BD55 /* chanchannelTests.swift */,
+				E88D54B424F27CC900E2A553 /* AccountHelperTests.swift */,
 				E84BB74324E6C2110086BD55 /* Info.plist */,
 			);
 			path = chanchannelTests;
@@ -547,7 +547,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E84BB74224E6C2110086BD55 /* chanchannelTests.swift in Sources */,
+				E88D54B524F27CC900E2A553 /* AccountHelperTests.swift in Sources */,
 				E88D54B324F27C5200E2A553 /* MockClass.swift in Sources */,
 				E88D54AF24F245F200E2A553 /* HomeViewModelTests.swift in Sources */,
 			);

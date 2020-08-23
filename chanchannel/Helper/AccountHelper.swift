@@ -10,17 +10,20 @@ import Foundation
 import FirebaseAuth
 
 enum AccountError {
-    case generic
+    case failedToSignIn
     case wrongPassword
+    case failedToRegister
     case failedToUpdateName
     case failedToSignOut
     
     var title: String? {
         switch self {
-        case .generic:
-            return "Something went wrong"
+        case .failedToSignIn:
+            return "Failed to sign in"
         case .wrongPassword:
             return "It seems you've input a wrong password"
+        case .failedToRegister:
+            return "Failed to register"
         case .failedToUpdateName:
             return "Failed to update name"
         case .failedToSignOut:
@@ -52,6 +55,7 @@ protocol FirebaseAuthenticationType {
     func createUser(withEmail email: String, password: String, completion: FirebaseAuthDataResultTypeCallback?)
     func signIn(withEmail email: String, password: String, completion: FirebaseAuthDataResultTypeCallback?)
     func signOut() throws
+    func updateDisplayName(with name: String, completion: UserProfileChangeCallback?)
 }
 
 extension Auth: FirebaseAuthenticationType {
@@ -67,6 +71,12 @@ extension Auth: FirebaseAuthenticationType {
     func signIn(withEmail email: String, password: String, completion: FirebaseAuthDataResultTypeCallback?) {
         let completion = completion as AuthDataResultCallback?
         signIn(withEmail: email, password: password, completion: completion)
+    }
+    
+    func updateDisplayName(with name: String, completion: UserProfileChangeCallback?) {
+        let changeRequest = currentUser?.createProfileChangeRequest()
+        changeRequest?.displayName = name
+        changeRequest?.commitChanges(completion: completion)
     }
 }
 
@@ -94,25 +104,23 @@ class AccountHelper: AccountHelperProtocol {
             if self?.isUserLogin == true {
                 onComplete?(nil)
             } else {
-                onComplete?(.generic)
+                onComplete?(.failedToRegister)
             }
         }
     }
     
     func updateUsername(with name: String, onComplete: ((AccountError?) -> ())?) {
-        guard let _currentUser = currentUser else {
+        guard isUserLogin else {
             onComplete?(.failedToUpdateName)
             return
         }
-        let changeRequest = _currentUser.createProfileChangeRequest()
-        changeRequest.displayName = name
-        changeRequest.commitChanges(completion: { (error) in
+        authenticationService.updateDisplayName(with: name) { (error) in
             if error != nil {
                 onComplete?(.failedToUpdateName)
             } else {
                 onComplete?(nil)
             }
-        })
+        }
     }
     
     func loginUser(with email: String, password: String, onComplete: ((AccountError?) -> ())?) {
@@ -125,10 +133,10 @@ class AccountHelper: AccountHelperProtocol {
                   case .wrongPassword:
                     onComplete?(.wrongPassword)
                   default:
-                    onComplete?(.generic)
+                    onComplete?(.failedToSignIn)
                   }
                 } else {
-                    onComplete?(.generic)
+                    onComplete?(.failedToSignIn)
                 }
             }
         }

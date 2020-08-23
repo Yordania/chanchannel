@@ -38,11 +38,19 @@ class MockFirebaseAuthenticationService: FirebaseAuthenticationType {
     }
     
     func createUser(withEmail email: String, password: String, completion: FirebaseAuthDataResultTypeCallback?) {
-        
+        completion?(authDataResultFactory?().authDataResult, authDataResultFactory?().error)
     }
     
     func signOut() throws {
-        
+        if let error = authDataResultFactory?().error {
+            throw error
+        } else {
+            authDataResultFactory = nil
+        }
+    }
+    
+    func updateDisplayName(with name: String, completion: UserProfileChangeCallback?) {
+        completion?(authDataResultFactory?().error)
     }
 }
 
