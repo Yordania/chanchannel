@@ -332,12 +332,14 @@ PODS:
   - nanopb/decode (1.30905.0)
   - nanopb/encode (1.30905.0)
   - PromisesObjC (1.2.10)
+  - SkeletonView (1.8.7)
 
 DEPENDENCIES:
   - Firebase/Analytics
   - Firebase/Auth
   - Firebase/Firestore
   - FirebaseFirestoreSwift
+  - SkeletonView
 
 SPEC REPOS:
   trunk:
@@ -360,6 +362,7 @@ SPEC REPOS:
     - leveldb-library
     - nanopb
     - PromisesObjC
+    - SkeletonView
 
 SPEC CHECKSUMS:
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
@@ -381,7 +384,8 @@ SPEC CHECKSUMS:
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   nanopb: c43f40fadfe79e8b8db116583945847910cbabc9
   PromisesObjC: b14b1c6b68e306650688599de8a45e49fae81151
+  SkeletonView: ba5370f41280b2f0a76918bb143c1294232bb4f4
 
-PODFILE CHECKSUM: bdcd56e143c82f1ef0c2c9a4dd2a447dd6a40db8
+PODFILE CHECKSUM: 97b21348a02d95f7088976055fcd0a4703df95df
 
 COCOAPODS: 1.9.3

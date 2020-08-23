@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SkeletonView
 
 final class TimelinePostCell: UITableViewCell {
     
@@ -19,6 +20,7 @@ final class TimelinePostCell: UITableViewCell {
         label.textAlignment = .center
         label.backgroundColor = .systemGray5
         label.clipsToBounds = true
+        label.isSkeletonable = true
         return label
     }()
     
@@ -27,6 +29,8 @@ final class TimelinePostCell: UITableViewCell {
     private(set) lazy var authorLabelView: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = UIFont.boldSystemFont(ofSize: 14)
+        label.text = "Author"
+        label.isSkeletonable = true
         return label
     }()
     
@@ -34,6 +38,8 @@ final class TimelinePostCell: UITableViewCell {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 16)
         label.numberOfLines = 5
+        label.text = "Post"
+        label.isSkeletonable = true
         return label
     }()
     
@@ -42,6 +48,8 @@ final class TimelinePostCell: UITableViewCell {
         label.font = UIFont.systemFont(ofSize: 10)
         label.textColor = .darkGray
         label.textAlignment = .right
+        label.text = "Today"
+        label.isSkeletonable = true
         return label
     }()
     
@@ -60,6 +68,8 @@ final class TimelinePostCell: UITableViewCell {
     }
     
     private func setupComponents() {
+        isSkeletonable = true
+        containerView.isSkeletonable = true
         preservesSuperviewLayoutMargins = true
         contentView.preservesSuperviewLayoutMargins = true
         separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)

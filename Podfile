@@ -10,6 +10,7 @@ target 'chanchannel' do
   pod 'Firebase/Firestore'
   pod 'FirebaseFirestoreSwift'
   pod 'Firebase/Auth'
+  pod "SkeletonView"
 
   target 'chanchannelTests' do
     inherit! :search_paths

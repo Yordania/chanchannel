@@ -7,11 +7,12 @@
 //
 
 import UIKit
-import Firebase
+import SkeletonView
 
 final class HomeVC: UITableViewController {
     
     private let viewModel: HomeViewModel
+    private var isFirstTimeLoad: Bool = true
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
@@ -43,6 +44,7 @@ final class HomeVC: UITableViewController {
     private func setupComponents() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonDidTap))
         
+        tableView.isSkeletonable = true
         tableView.register(TimelinePostCell.self, forCellReuseIdentifier: "postCell")
         
         refreshControl = UIRefreshControl()
@@ -57,7 +59,17 @@ final class HomeVC: UITableViewController {
     }
     
     private func reloadData(_ onComplete: (() -> ())? = nil) {
+        if isFirstTimeLoad {
+            tableView.showAnimatedGradientSkeleton()
+            tableView.isUserInteractionEnabled = false
+        }
+        
         viewModel.fetchData() { [weak self] error in
+            if self?.isFirstTimeLoad == true {
+                self?.isFirstTimeLoad = false
+                self?.tableView.isUserInteractionEnabled = true
+                self?.tableView.hideSkeleton()
+            }
             self?.tableView.reloadData()
             onComplete?()
             if let _error = error, let _self = self {
@@ -99,7 +111,15 @@ final class HomeVC: UITableViewController {
 
 extension HomeVC {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.posts.count
+        return isFirstTimeLoad ? 15 : viewModel.posts.count
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 75
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -136,6 +156,12 @@ extension HomeVC {
         return configuration
     }
     
+}
+
+extension HomeVC: SkeletonTableViewDataSource {
+    func collectionSkeletonView(_ skeletonView: UITableView, cellIdentifierForRowAt indexPath: IndexPath) -> ReusableCellIdentifier {
+        return "postCell"
+    }
 }
 
 extension HomeVC: RegisterOrLoginScreenProtocol {
