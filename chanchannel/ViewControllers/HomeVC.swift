@@ -65,11 +65,10 @@ final class HomeVC: UITableViewController {
     
     @objc private func addButtonDidTap(_ sender: UIBarButtonItem) {
         guard viewModel.isUserAlreadyLogin else {
-            if let loginVC = viewModel.getLoginScreen() {
-                loginVC.delegate = self
-                let navCont = UINavigationController(rootViewController: loginVC)
-                present(navCont, animated: true, completion: nil)
-            }
+            let loginVC = viewModel.getLoginScreen()
+            loginVC.delegate = self
+            let navCont = UINavigationController(rootViewController: loginVC)
+            present(navCont, animated: true, completion: nil)
             return
         }
         let vc = CreatePostVC(viewModel: CreatePostViewModel())
@@ -78,11 +77,12 @@ final class HomeVC: UITableViewController {
     }
     
     @objc private func logoutButtonDidTap(_ sender: UIBarButtonItem) {
-        do {
-            try viewModel.logout()
-            navigationItem.leftBarButtonItem = nil
-        } catch {
-            AlertHelper.showOKAlert("SignOut failed", message: nil, onController: self, onHandleAction: nil, onComplete: nil)
+        viewModel.logout { [weak self] (error) in
+            if let _error = error, let _self = self {
+                AlertHelper.showOKAlert(_error.title, message: nil, onController: _self, onHandleAction: nil, onComplete: nil)
+            } else {
+                self?.navigationItem.leftBarButtonItem = nil
+            }
         }
     }
     

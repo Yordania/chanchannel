@@ -12,64 +12,31 @@ import Firebase
 
 final class HomeViewModelTests: XCTestCase {
     
-    class MockUser: User {
-        let testingUID: String
-        let testingEmail: String?
-        let testingDisplayName: String?
-        
-        init(testingUID: String, testingEmail: String? = nil, testingDisplayName: String? = nil) {
-            self.testingUID = testingUID
-            self.testingEmail = testingEmail
-            self.testingDisplayName = testingDisplayName
+    private let expectedUID = "aM1RyjpaZcQ4EhaUvDAeCnla3HX2"
+    private let expectedEmail = "johndoe@mail.com"
+    private let expectedUsername = "John Doe"
+    private var mockLoginAuthService: FirebaseAuthenticationType {
+        let firebaseAuthService = MockFirebaseAuthenticationService()
+        firebaseAuthService.authDataResultFactory = { [weak self] in
+            let user = MockUser(testingUID: self?.expectedUID ?? "", testingEmail: self?.expectedEmail)
+            let authDataResult = MockFirebaseAuthDataResult(user: user)
+            return (authDataResult, nil)
         }
+        return firebaseAuthService
     }
-    
-    class MockDataHelper: DataHelperProtocol {
-        private var posts: [Post] = []
-        
-        var collectionName: String {
-            return "unit_testing"
-        }
-        
-        func clearData() {
-            posts.removeAll()
-        }
-        
-        func addPost(_ post: Post, onComplete: ((DataError?) -> ())?) {
-            posts.append(post)
-            onComplete?(nil)
-        }
-        
-        func deletePost(_ post: Post, onComplete: ((DataError?) -> ())?) {
-            posts.removeAll(where: { return $0.id == post.id })
-            onComplete?(nil)
-        }
-        
-        func getPosts(_ onComplete: (([Post], DataError?) -> ())?) {
-            onComplete?(posts, nil)
-        }
+    private var mockNotLoginAuthService: FirebaseAuthenticationType {
+        let firebaseAuthService = MockFirebaseAuthenticationService()
+        return firebaseAuthService
     }
-    
-    class MockHomeViewModel: HomeViewModel {
-        override init() {
-            super.init()
-            self.dataHelper = MockDataHelper()
-        }
-        
-        func resetData() {
-            dataHelper = MockDataHelper()
-        }
-    }
-    
-    private let viewModel = MockHomeViewModel()
     
     func testFetchDataWhenDataIsStillEmpty() {
-        viewModel.resetData()
-        
+        let mockAccountHelper = MockAccountHelper(authenticationService: mockLoginAuthService)
+        let mockDataHelper = MockDataHelper()
+        let viewModel = HomeViewModel(accountHelper: mockAccountHelper, dataHelper: mockDataHelper)
         let postsExpectation = expectation(description: "posts")
         var posts: [Post]?
-        viewModel.fetchData { [weak self] (erorr) in
-            posts = self?.viewModel.posts
+        viewModel.fetchData { (erorr) in
+            posts = viewModel.posts
             postsExpectation.fulfill()
         }
         waitForExpectations(timeout: 1) { (_) in
@@ -79,17 +46,19 @@ final class HomeViewModelTests: XCTestCase {
     }
     
     func testFetchDataWith1Post() {
-        viewModel.resetData()
+        let mockAccountHelper = MockAccountHelper(authenticationService: mockLoginAuthService)
+        let mockDataHelper = MockDataHelper()
+        let viewModel = HomeViewModel(accountHelper: mockAccountHelper, dataHelper: mockDataHelper)
         
         let id = UUID().uuidString
         let timeStamp = Timestamp(date: Date())
-        let post = Post(id: id, body: "Post1", userId: "userID", author: "user", createdAt: timeStamp, updatedAt: timeStamp)
-        viewModel.dataHelper.addPost(post, onComplete: nil)
+        let post = Post(id: id, body: "Post1", userId: expectedUID, author: expectedUsername, createdAt: timeStamp, updatedAt: timeStamp)
+        mockDataHelper.addPost(post, onComplete: nil)
         
         let postsExpectation = expectation(description: "posts")
         var posts: [Post]?
-        viewModel.fetchData { [weak self] (erorr) in
-            posts = self?.viewModel.posts
+        viewModel.fetchData { (erorr) in
+            posts = viewModel.posts
             postsExpectation.fulfill()
         }
         waitForExpectations(timeout: 1) { (_) in
@@ -100,18 +69,20 @@ final class HomeViewModelTests: XCTestCase {
     }
     
     func testRemoveDataWithFetchData() {
-        viewModel.resetData()
+        let mockAccountHelper = MockAccountHelper(authenticationService: mockLoginAuthService)
+        let mockDataHelper = MockDataHelper()
+        let viewModel = HomeViewModel(accountHelper: mockAccountHelper, dataHelper: mockDataHelper)
         
         let id = UUID().uuidString
         let timeStamp = Timestamp(date: Date())
-        let post = Post(id: id, body: "Post1", userId: "userID", author: "user", createdAt: timeStamp, updatedAt: timeStamp)
-        viewModel.dataHelper.addPost(post, onComplete: nil)
+        let post = Post(id: id, body: "Post1", userId: expectedUID, author: expectedUsername, createdAt: timeStamp, updatedAt: timeStamp)
+        mockDataHelper.addPost(post, onComplete: nil)
         
         let postsExpectation = expectation(description: "posts")
         var posts: [Post]?
-        viewModel.removePost(post) { [weak self] (error) in
-            self?.viewModel.fetchData { (erorr) in
-                posts = self?.viewModel.posts
+        viewModel.removePost(post) { (error) in
+            viewModel.fetchData { (erorr) in
+                posts = viewModel.posts
                 postsExpectation.fulfill()
             }
         }
@@ -122,11 +93,43 @@ final class HomeViewModelTests: XCTestCase {
     }
     
     func testIsOwnedPost() {
-        let id = UUID().uuidString
-        let userId = "UserId"
-        let timeStamp = Timestamp(date: Date())
-        let post = Post(id: id, body: "Post1", userId: userId, author: "user", createdAt: timeStamp, updatedAt: timeStamp)
+        let mockAccountHelper = MockAccountHelper(authenticationService: mockLoginAuthService)
+        let mockDataHelper = MockDataHelper()
+        let viewModel = HomeViewModel(accountHelper: mockAccountHelper, dataHelper: mockDataHelper)
         
+        let id = UUID().uuidString
+        let timeStamp = Timestamp(date: Date())
+        let post = Post(id: id, body: "Post1", userId: expectedUID, author: expectedUsername, createdAt: timeStamp, updatedAt: timeStamp)
+        
+        XCTAssertTrue(viewModel.isOwnedPost(post))
+    }
+    
+    func testIsNotOwnedPost() {
+        let mockAccountHelper = MockAccountHelper(authenticationService: mockLoginAuthService)
+        let mockDataHelper = MockDataHelper()
+        let viewModel = HomeViewModel(accountHelper: mockAccountHelper, dataHelper: mockDataHelper)
+        
+        let id = UUID().uuidString
+        let timeStamp = Timestamp(date: Date())
+        let post = Post(id: id, body: "Post1", userId: "notThisUser", author: expectedUsername, createdAt: timeStamp, updatedAt: timeStamp)
+        
+        XCTAssertFalse(viewModel.isOwnedPost(post))
+    }
+    
+    func testIsUserLogin() {
+        let mockAccountHelper = MockAccountHelper(authenticationService: mockLoginAuthService)
+        let mockDataHelper = MockDataHelper()
+        let viewModel = HomeViewModel(accountHelper: mockAccountHelper, dataHelper: mockDataHelper)
+        
+        XCTAssertTrue(viewModel.isUserAlreadyLogin)
+    }
+    
+    func testIsUserNotLogin() {
+        let mockAccountHelper = MockAccountHelper(authenticationService: mockNotLoginAuthService)
+        let mockDataHelper = MockDataHelper()
+        let viewModel = HomeViewModel(accountHelper: mockAccountHelper, dataHelper: mockDataHelper)
+        
+        XCTAssertFalse(viewModel.isUserAlreadyLogin)
     }
     
 }

@@ -19,18 +19,12 @@ final class RegisterOrLoginViewModel {
     
     func doRegister(onComplete: ((AccountError?) -> ())?) {
         accountHelper.registerUser(with: email, password: password) { [weak self] (accountError) in
-            if let currentUser = self?.accountHelper.currentUser {
-                let changeRequest = currentUser.createProfileChangeRequest()
-                changeRequest.displayName = self?.name
-                changeRequest.commitChanges(completion: { (error) in
-                    if error != nil {
-                        onComplete?(.generic)
-                    } else {
-                        onComplete?(nil)
-                    }
-                })
+            if let error = accountError {
+                onComplete?(error)
             } else {
-                onComplete?(accountError)
+                self?.accountHelper.updateUsername(with: self?.name ?? "", onComplete: { (error) in
+                    onComplete?(error)
+                })
             }
         }
     }

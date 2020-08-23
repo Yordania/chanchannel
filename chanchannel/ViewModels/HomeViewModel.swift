@@ -11,25 +11,25 @@ import Firebase
 
 class HomeViewModel {
     
-    var accountHelper: AccountHelperProtocol
-    var dataHelper: DataHelperProtocol
+    private var accountHelper: AccountHelperProtocol
+    private var dataHelper: DataHelperProtocol
     var posts: [Post] = []
     
-    init() {
-        self.accountHelper = AccountHelper()
-        self.dataHelper = DataHelper()
+    init(accountHelper: AccountHelperProtocol = AccountHelper(), dataHelper: DataHelperProtocol = DataHelper()) {
+        self.accountHelper = accountHelper
+        self.dataHelper = dataHelper
     }
     
     var isUserAlreadyLogin: Bool {
         return accountHelper.isUserLogin
     }
     
-    func getLoginScreen() -> RegisterOrLoginVC? {
-        return accountHelper.getLoginScreen() as? RegisterOrLoginVC
+    func getLoginScreen() -> RegisterOrLoginVC {
+        return RegisterOrLoginVC(viewModel: RegisterOrLoginViewModel(), screenType: .login)
     }
     
-    func logout() throws {
-        try accountHelper.logoutUser()
+    func logout(_ onComplete: ((AccountError?) -> ())?) {
+        accountHelper.logoutUser(onComplete)
     }
     
     func fetchData(_ onComplete: ((DataError?) -> ())? = nil) {

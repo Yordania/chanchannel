@@ -12,6 +12,8 @@ import FirebaseAuth
 enum AccountError {
     case generic
     case wrongPassword
+    case failedToUpdateName
+    case failedToSignOut
     
     var title: String? {
         switch self {
@@ -19,6 +21,10 @@ enum AccountError {
             return "Something went wrong"
         case .wrongPassword:
             return "It seems you've input a wrong password"
+        case .failedToUpdateName:
+            return "Failed to update name"
+        case .failedToSignOut:
+            return "Failed to sign out"
         }
     }
 }
@@ -27,33 +33,64 @@ protocol AccountHelperProtocol {
     var isUserLogin: Bool { get }
     var currentUser: User? { get }
     var currentUserId: String? { get }
-    func getLoginScreen() -> UIViewController
+    func updateUsername(with name: String, onComplete: ((AccountError?) -> ())?)
     func registerUser(with email: String, password: String, onComplete: ((AccountError?) -> ())?)
     func loginUser(with email: String, password: String, onComplete: ((AccountError?) -> ())?)
-    func logoutUser() throws
+    func logoutUser(_ onComplete: ((AccountError?) -> ())?)
 }
 
-final class AccountHelper: AccountHelperProtocol {
-    private lazy var auth: Auth = Auth.auth()
+protocol FirebaseAuthDataResultType {
+    var user: User { get }
+}
+
+extension AuthDataResult: FirebaseAuthDataResultType {}
+
+typealias FirebaseAuthDataResultTypeCallback = (FirebaseAuthDataResultType?, Error?) -> ()
+
+protocol FirebaseAuthenticationType {
+    var user: User? { get }
+    func createUser(withEmail email: String, password: String, completion: FirebaseAuthDataResultTypeCallback?)
+    func signIn(withEmail email: String, password: String, completion: FirebaseAuthDataResultTypeCallback?)
+    func signOut() throws
+}
+
+extension Auth: FirebaseAuthenticationType {
+    var user: User? {
+        return currentUser
+    }
+    
+    func createUser(withEmail email: String, password: String, completion: FirebaseAuthDataResultTypeCallback?) {
+        let completion = completion as AuthDataResultCallback?
+        createUser(withEmail: email, password: password, completion: completion)
+    }
+    
+    func signIn(withEmail email: String, password: String, completion: FirebaseAuthDataResultTypeCallback?) {
+        let completion = completion as AuthDataResultCallback?
+        signIn(withEmail: email, password: password, completion: completion)
+    }
+}
+
+class AccountHelper: AccountHelperProtocol {
+    private let authenticationService: FirebaseAuthenticationType
+    
+    init(authenticationService: FirebaseAuthenticationType = Auth.auth()) {
+        self.authenticationService = authenticationService
+    }
     
     var isUserLogin: Bool {
         return currentUser != nil
     }
     
     var currentUser: User? {
-        return auth.currentUser
+        return authenticationService.user
     }
     
     var currentUserId: String? {
         return currentUser?.uid
     }
     
-    func getLoginScreen() -> UIViewController {
-        return RegisterOrLoginVC(viewModel: RegisterOrLoginViewModel(), screenType: .login)
-    }
-    
     func registerUser(with email: String, password: String, onComplete: ((AccountError?) -> ())?) {
-        auth.createUser(withEmail: email, password: password) { [weak self] (authResult, error) in
+        authenticationService.createUser(withEmail: email, password: password) { [weak self] (authResult, error) in
             if self?.isUserLogin == true {
                 onComplete?(nil)
             } else {
@@ -62,8 +99,24 @@ final class AccountHelper: AccountHelperProtocol {
         }
     }
     
+    func updateUsername(with name: String, onComplete: ((AccountError?) -> ())?) {
+        guard let _currentUser = currentUser else {
+            onComplete?(.failedToUpdateName)
+            return
+        }
+        let changeRequest = _currentUser.createProfileChangeRequest()
+        changeRequest.displayName = name
+        changeRequest.commitChanges(completion: { (error) in
+            if error != nil {
+                onComplete?(.failedToUpdateName)
+            } else {
+                onComplete?(nil)
+            }
+        })
+    }
+    
     func loginUser(with email: String, password: String, onComplete: ((AccountError?) -> ())?) {
-        auth.signIn(withEmail: email, password: password) { [weak self] (authResult, error) in
+        authenticationService.signIn(withEmail: email, password: password) { [weak self] (authResult, error) in
             if self?.isUserLogin == true {
                 onComplete?(nil)
             } else {
@@ -81,7 +134,12 @@ final class AccountHelper: AccountHelperProtocol {
         }
     }
     
-    func logoutUser() throws {
-        try auth.signOut()
+    func logoutUser(_ onComplete: ((AccountError?) -> ())?) {
+        do {
+            try authenticationService.signOut()
+            onComplete?(nil)
+        } catch {
+            onComplete?(.failedToSignOut)
+        }
     }
 }
