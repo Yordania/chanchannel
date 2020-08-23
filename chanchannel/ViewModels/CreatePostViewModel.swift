@@ -11,6 +11,7 @@ import Firebase
 
 final class CreatePostViewModel {
     
+    private lazy var accountHelper: AccountHelperProtocol = AccountHelper()
     private lazy var dataHelper: DataHelperProtocol = DataHelper()
     var post: Post
     
@@ -19,11 +20,10 @@ final class CreatePostViewModel {
         self.post = Post(id: nil, body: "", userId: nil, author: nil, createdAt: Timestamp(date: date), updatedAt: Timestamp(date: date))
     }
     
-    func addData() {
-        let accountHelper = AccountHelper()
+    func addData(_ onComplete: ((DataError?) -> ())?) {
         post.userId = accountHelper.currentUser?.uid
         post.author = accountHelper.currentUser?.displayName
-        dataHelper.addPost(post, onComplete: nil)
+        dataHelper.addPost(post, onComplete: onComplete)
     }
     
 }

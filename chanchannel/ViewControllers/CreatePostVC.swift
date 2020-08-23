@@ -33,8 +33,16 @@ final class CreatePostVC: UITableViewController {
     }
     
     @objc private func postButtonDidTap(_ sender: UIBarButtonItem) {
-        viewModel.addData()
-        navigationController?.dismiss(animated: true, completion: nil)
+        viewModel.addData { [weak self] (error) in
+            guard let _error = error else {
+                self?.navigationController?.dismiss(animated: true, completion: nil)
+                return
+            }
+            
+            if let _self = self {
+                AlertHelper.showOKAlert(_error.title, message: nil, onController: _self, onHandleAction: nil, onComplete: nil)
+            }
+        }
     }
     
     @objc private func cancelButtonDidTap(_ sender: UIBarButtonItem) {

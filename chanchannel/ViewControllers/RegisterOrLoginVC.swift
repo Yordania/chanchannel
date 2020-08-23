@@ -111,6 +111,10 @@ final class RegisterOrLoginVC: UITableViewController {
         footerView.secondaryButton.addTarget(self, action: #selector(secondaryButtonDidTap), for: .touchUpInside)
     }
     
+    private func showAlert(with error: AccountError) {
+        AlertHelper.showOKAlert(error.title, message: nil, onController: self, onHandleAction: nil, onComplete: nil)
+    }
+    
     @objc private func cancelButtonDidTap(_ sender: UIBarButtonItem) {
         dismissScreen()
     }
@@ -126,10 +130,7 @@ final class RegisterOrLoginVC: UITableViewController {
                     return
                 }
                 
-                let alert = UIAlertController(title: _error.title, message: nil, preferredStyle: .alert)
-                let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-                alert.addAction(okAction)
-                self?.present(alert, animated: true, completion: nil)
+                self?.showAlert(with: _error)
             }
         case .register:
             viewModel.doRegister { [weak self] (error) in
@@ -138,10 +139,7 @@ final class RegisterOrLoginVC: UITableViewController {
                     return
                 }
                 
-                let alert = UIAlertController(title: _error.title, message: nil, preferredStyle: .alert)
-                let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-                alert.addAction(okAction)
-                self?.present(alert, animated: true, completion: nil)
+                self?.showAlert(with: _error)
             }
         }
     }

@@ -13,6 +13,14 @@ enum DataError: Error {
     case failedToGetPosts
     case failedToAddPost
     case failedToDeletePost
+    
+    var title: String? {
+        return "Something went wrong"
+    }
+    
+    var message: String? {
+        return "Please try again"
+    }
 }
 
 protocol DataHelperProtocol {

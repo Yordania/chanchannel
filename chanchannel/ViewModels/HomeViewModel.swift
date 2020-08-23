@@ -27,10 +27,10 @@ final class HomeViewModel {
         try accountHelper.logoutUser()
     }
     
-    func fetchData(_ onComplete: (() -> ())? = nil) {
+    func fetchData(_ onComplete: ((DataError?) -> ())? = nil) {
         dataHelper.getPosts { [weak self] (posts, error) in
             self?.posts = posts
-            onComplete?()
+            onComplete?(error)
         }
     }
     

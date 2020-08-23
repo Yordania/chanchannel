@@ -48,9 +48,12 @@ final class HomeVC: UITableViewController {
     }
     
     private func reloadData(_ onComplete: (() -> ())? = nil) {
-        viewModel.fetchData() { [weak self] in
+        viewModel.fetchData() { [weak self] error in
             self?.tableView.reloadData()
             onComplete?()
+            if let _self = self {
+                AlertHelper.showOKAlert(error?.title, message: error?.message, onController: _self, onHandleAction: nil, onComplete: nil)
+            }
         }
     }
     
@@ -79,10 +82,7 @@ final class HomeVC: UITableViewController {
             try viewModel.logout()
             navigationItem.leftBarButtonItem = nil
         } catch {
-            let alert = UIAlertController(title: "SignOut failed", message: nil, preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-            alert.addAction(okAction)
-            present(alert, animated: true, completion: nil)
+            AlertHelper.showOKAlert("SignOut failed", message: nil, onController: self, onHandleAction: nil, onComplete: nil)
         }
     }
     
@@ -118,6 +118,9 @@ extension HomeVC {
         
         let action = UIContextualAction(style: .destructive, title: "Delete", handler: { [weak self] (action, view, completionHandler) in
             self?.viewModel.removePost(post, onComplete: { (error) in
+                if let _error = error, let _self = self {
+                    AlertHelper.showOKAlert(_error.title, message: nil, onController: _self, onHandleAction: nil, onComplete: nil)
+                }
                 self?.reloadData()
             })
             completionHandler(true)
