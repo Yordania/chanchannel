@@ -24,6 +24,7 @@ enum DataError: Error {
 }
 
 protocol DataHelperProtocol {
+    var collectionName: String { get }
     func addPost(_ post: Post, onComplete: ((DataError?) -> ())?)
     func deletePost(_ post: Post, onComplete: ((DataError?) -> ())?)
     func getPosts(_ onComplete: ((_ posts: [Post], DataError?) -> ())?)
@@ -31,7 +32,7 @@ protocol DataHelperProtocol {
 
 class DataHelper: DataHelperProtocol {
     
-    internal var collectionName: String {
+    var collectionName: String {
         return "posts"
     }
     

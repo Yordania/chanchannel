@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Firebase
+import FirebaseAuth
 
 enum AccountError {
     case generic
@@ -26,6 +26,7 @@ enum AccountError {
 protocol AccountHelperProtocol {
     var isUserLogin: Bool { get }
     var currentUser: User? { get }
+    var currentUserId: String? { get }
     func getLoginScreen() -> UIViewController
     func registerUser(with email: String, password: String, onComplete: ((AccountError?) -> ())?)
     func loginUser(with email: String, password: String, onComplete: ((AccountError?) -> ())?)
@@ -41,6 +42,10 @@ final class AccountHelper: AccountHelperProtocol {
     
     var currentUser: User? {
         return auth.currentUser
+    }
+    
+    var currentUserId: String? {
+        return currentUser?.uid
     }
     
     func getLoginScreen() -> UIViewController {
