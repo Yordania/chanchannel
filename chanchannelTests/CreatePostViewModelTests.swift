@@ -29,27 +29,25 @@ final class CreatePostViewModelTests: XCTestCase {
         let mockAccountHelper = MockAccountHelper(authenticationService: mockLoginAccountService)
         let id = "Post1"
         let timeStamp = Timestamp(date: Date())
-        let post = Post(id: id, body: "Post1", userId: expectedUID, author: expectedUsername, createdAt: timeStamp, updatedAt: timeStamp)
-        let mockDatabaseService = MockFirebaseDatabaseService(posts: [post], error: nil)
-        let mockDataHelper = DataHelper(databaseService: mockDatabaseService, collectionName: "unit_testing")
+        let expectedPost = Post(id: id, body: "Post1", userId: expectedUID, author: expectedUsername, createdAt: timeStamp, updatedAt: timeStamp)
+        let mockDataHelper = MockDataHelper(posts: [expectedPost])
         let viewModel = CreatePostViewModel(accountHelper: mockAccountHelper, dataHelper: mockDataHelper)
         
         let addPostExpectation = expectation(description: "add")
         let fetchPostExpectation = expectation(description: "fetch")
-        var posts: [Post]?
+        var post: Post?
         viewModel.addData({ (error) in
             addPostExpectation.fulfill()
-            mockDataHelper.getPosts { (_posts, error) in
-                posts = _posts
+            mockDataHelper.getPost(with: id) { (_post, error) in
+                post = _post
                 fetchPostExpectation.fulfill()
             }
         })
         
         let result = XCTWaiter().wait(for: [addPostExpectation, fetchPostExpectation], timeout: 2, enforceOrder: true)
         if result == .completed {
-            XCTAssertNotNil(posts)
-            XCTAssertEqual(posts!.count, 1)
-            XCTAssertEqual(posts!.first!.id!, id)
+            XCTAssertNotNil(post)
+            XCTAssertEqual(post!.id!, id)
         }
     }
     

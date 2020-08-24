@@ -62,44 +62,46 @@ class MockAccountHelper: AccountHelper {
     }
 }
 
-class MockFirebaseDatabaseService: FirebaseDatabaseService {
+class MockDataHelper: DataHelperProtocol {
     private var posts: [Post]?
-    private var error: Error?
+    private var error: DataError?
     
-    init(posts: [Post]? = nil, error: Error? = nil) {
+    init(posts: [Post]? = nil, error: DataError? = nil) {
         self.posts = posts
         self.error = error
     }
     
-    func addPost(_ post: Post, collectionName: String, completion: ((Error?) -> ())?) {
+    func addPost(_ post: Post, onComplete: ((DataError?) -> ())?) {
         if let _error = error {
-            completion?(_error)
+            onComplete?(_error)
         } else {
             posts?.append(post)
+            onComplete?(nil)
         }
     }
     
-    func deletePost(_ postId: String, collectionName: String, completion: ((Error?) -> ())?) {
+    func deletePost(_ post: Post, onComplete: ((DataError?) -> ())?) {
         if let _error = error {
-            completion?(_error)
+            onComplete?(_error)
         } else {
-            posts?.removeAll(where: { return $0.id == postId })
+            posts?.removeAll(where: { return $0.id == post.id })
+            onComplete?(nil)
         }
     }
     
-    func getPosts(collectionName: String, orderBy: String?, descending: Bool, completion: (([Post], Error?) -> ())?) {
+    func getPosts(lastId: String?, limit: Int, onComplete: (([Post], DataError?) -> ())?) {
         if let _error = error {
-            completion?([], _error)
+            onComplete?([], _error)
         } else {
-            completion?(posts ?? [], nil)
+            onComplete?(posts ?? [], nil)
         }
     }
     
-    func getPost(collectionName: String, id: String, completion: ((Post?, Error?) -> ())?) {
+    func getPost(with id: String, onComplete: ((Post?, DataError?) -> ())?) {
         if let _error = error {
-            completion?(nil, _error)
+            onComplete?(nil, _error)
         } else {
-            completion?(posts?.first(where: { return $0.id == id }), nil)
+            onComplete?(posts?.first(where: { return $0.id == id }), nil)
         }
     }
 }

@@ -20,8 +20,7 @@ final class PostDetailViewModelTests: XCTestCase {
         let id = "Post1"
         let timeStamp = Timestamp(date: Date())
         let expectedPost = Post(id: id, body: "Post1", userId: expectedUID, author: expectedUsername, createdAt: timeStamp, updatedAt: timeStamp)
-        let mockDatabaseService = MockFirebaseDatabaseService(posts: [expectedPost], error: nil)
-        let mockDataHelper = DataHelper(databaseService: mockDatabaseService, collectionName: "unit_testing")
+        let mockDataHelper = MockDataHelper(posts: [expectedPost])
         let viewModel = PostDetailViewModel(dataHelper: mockDataHelper, postId: id)
         
         let postExpectation = expectation(description: "post")
@@ -43,8 +42,7 @@ final class PostDetailViewModelTests: XCTestCase {
         let id = "Post1"
         let timeStamp = Timestamp(date: Date())
         let expectedPost = Post(id: id, body: "Post1", userId: expectedUID, author: expectedUsername, createdAt: timeStamp, updatedAt: timeStamp)
-        let mockDatabaseService = MockFirebaseDatabaseService(posts: [expectedPost], error: nil)
-        let mockDataHelper = DataHelper(databaseService: mockDatabaseService, collectionName: "unit_testing")
+        let mockDataHelper = MockDataHelper(posts: [expectedPost], error: DataError.failedToGetPost)
         let viewModel = PostDetailViewModel(dataHelper: mockDataHelper, postId: "AnotherPostId")
         viewModel.post = expectedPost
         
@@ -67,8 +65,7 @@ final class PostDetailViewModelTests: XCTestCase {
         let id = "Post1"
         let timeStamp = Timestamp(date: Date())
         let expectedPost = Post(id: id, body: "Post1", userId: expectedUID, author: expectedUsername, createdAt: timeStamp, updatedAt: timeStamp)
-        let mockDatabaseService = MockFirebaseDatabaseService(posts: [expectedPost], error: nil)
-        let mockDataHelper = DataHelper(databaseService: mockDatabaseService, collectionName: "unit_testing")
+        let mockDataHelper = MockDataHelper(posts: [expectedPost])
         let viewModel = PostDetailViewModel(dataHelper: mockDataHelper, postId: id)
         viewModel.post = expectedPost
         
@@ -90,9 +87,9 @@ final class PostDetailViewModelTests: XCTestCase {
         let id = "Post1"
         let timeStamp = Timestamp(date: Date())
         let expectedPost = Post(id: id, body: "Post1", userId: expectedUID, author: expectedUsername, createdAt: timeStamp, updatedAt: timeStamp)
-        let mockDatabaseService = MockFirebaseDatabaseService(posts: [expectedPost], error: nil)
-        let mockDataHelper = DataHelper(databaseService: mockDatabaseService, collectionName: "unit_testing")
+        let mockDataHelper = MockDataHelper(posts: [expectedPost], error: DataError.failedToDeletePost)
         let viewModel = PostDetailViewModel(dataHelper: mockDataHelper, postId: "AnotherPostId")
+        viewModel.post = expectedPost
         
         let postExpectation = expectation(description: "post")
         var post: Post?
