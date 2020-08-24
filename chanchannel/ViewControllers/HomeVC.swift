@@ -23,7 +23,7 @@ final class HomeVC: UITableViewController {
     
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
-        super.init(style: .plain)
+        super.init(style: .grouped)
     }
     
     required init?(coder: NSCoder) {
@@ -45,6 +45,7 @@ final class HomeVC: UITableViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonDidTap))
         
         tableView.isSkeletonable = true
+        tableView.separatorStyle = .none
         tableView.register(TimelinePostCell.self, forCellReuseIdentifier: "postCell")
         tableView.register(TimelinePostCell.self, forCellReuseIdentifier: "postCellSkeleton")
         
@@ -111,6 +112,14 @@ final class HomeVC: UITableViewController {
 }
 
 extension HomeVC {
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return CGFloat.leastNormalMagnitude
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return nil
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return isFirstTimeLoad ? 15 : viewModel.posts.count
     }
@@ -133,7 +142,8 @@ extension HomeVC {
         }
         if let post = viewModel.posts[safe: indexPath.row] {
             cell.postLabelView.text = post.body
-            cell.setAuthor(post.author)
+            let authorColor = viewModel.authorColors.first(where: { return $0.id == post.userId })?.color
+            cell.setAuthor(post.author, color: authorColor)
             cell.dateLabelView.text = dateFormatter.string(from: post.createdAt.dateValue())
         }
         return cell
@@ -141,6 +151,9 @@ extension HomeVC {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        guard let post = viewModel.posts[safe: indexPath.row] else { return }
+        let postDetailVC = PostDetailVC(viewModel: PostDetailViewModel(postId: post.id ?? ""))
+        navigationController?.pushViewController(postDetailVC, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
