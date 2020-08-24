@@ -13,12 +13,14 @@ final class TimelinePostCell: UITableViewCell {
     
     private let padding: CGFloat = 16
     private let initialViewSize: CGFloat = 44
+    private let separatorHeight: CGFloat = 1/UIScreen.main.scale
     
     private lazy var initialView: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.textColor = .white
         label.textAlignment = .center
-        label.backgroundColor = .systemGray5
+        label.backgroundColor = .darkGray
         label.clipsToBounds = true
         label.isSkeletonable = true
         return label
@@ -53,6 +55,12 @@ final class TimelinePostCell: UITableViewCell {
         return label
     }()
     
+    private lazy var separatorView: UIView = {
+        let view = UIView(frame: .zero)
+        view.backgroundColor = UIColor.appColor(.separator)
+        return view
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupComponents()
@@ -72,20 +80,23 @@ final class TimelinePostCell: UITableViewCell {
         containerView.isSkeletonable = true
         preservesSuperviewLayoutMargins = true
         contentView.preservesSuperviewLayoutMargins = true
-        separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         
         contentView.addSubview(initialView)
         contentView.addSubview(containerView)
+        contentView.addSubview(separatorView)
         containerView.addSubview(authorLabelView)
         containerView.addSubview(postLabelView)
         containerView.addSubview(dateLabelView)
         
         NSLayoutConstraint.layout(visualFormats: ["H:|-[initialView(initialViewSize)]-[containerView]-|",
-                                                  "V:|-(padding@999)-[containerView]-(padding@999)-|"],
+                                                  "H:|-(padding@999)-[separatorView]-(padding@999)-|",
+                                                  "V:|-(padding@999)-[containerView]-(padding@999)-[separatorView(separatorHeight)]|"],
                                   metrics: ["padding" : padding,
-                                            "initialViewSize" : initialViewSize],
+                                            "initialViewSize" : initialViewSize,
+                                            "separatorHeight" : separatorHeight],
                                   views: ["initialView" : initialView,
-                                          "containerView" : containerView])
+                                          "containerView" : containerView,
+                                          "separatorView" : separatorView])
         
         NSLayoutConstraint.layout(visualFormats: ["H:|-[authorLabelView]-|",
                                                   "H:|-[postLabelView]-|",
@@ -105,11 +116,19 @@ final class TimelinePostCell: UITableViewCell {
         return formatter
     }()
 
-    func setAuthor(_ authorName: String?) {
+    func setAuthor(_ authorName: String?, color: UIColor?) {
         authorLabelView.text = authorName
         if let components = personNameFormatter.personNameComponents(from: authorName ?? "") {
             initialView.text = personNameFormatter.string(from: components)
         }
+        if let _color = color {
+            initialView.backgroundColor = _color
+        }
+    }
+    
+    override func prepareForReuse() {
+        initialView.backgroundColor = .darkGray
+        super.prepareForReuse()
     }
     
 }
