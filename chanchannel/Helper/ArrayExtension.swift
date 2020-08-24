@@ -13,7 +13,11 @@ extension Array {
         guard index >= 0, index < endIndex else {
             return nil
         }
-
         return self[index]
+    }
+    
+    func filterDuplicate<T>(_ keyValue:(Element)->T) -> [Element] {
+       var uniqueKeys = Set<String>()
+       return filter{uniqueKeys.insert("\(keyValue($0))").inserted}
     }
 }
