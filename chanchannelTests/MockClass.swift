@@ -87,11 +87,19 @@ class MockFirebaseDatabaseService: FirebaseDatabaseService {
         }
     }
     
-    func getPosts(collectionName: String, orderBy: String?, descending: Bool, completion: FirebaseDatabaseServiceCallback?) {
+    func getPosts(collectionName: String, orderBy: String?, descending: Bool, completion: (([Post], Error?) -> ())?) {
         if let _error = error {
             completion?([], _error)
         } else {
             completion?(posts ?? [], nil)
+        }
+    }
+    
+    func getPost(collectionName: String, id: String, completion: ((Post?, Error?) -> ())?) {
+        if let _error = error {
+            completion?(nil, _error)
+        } else {
+            completion?(posts?.first(where: { return $0.id == id }), nil)
         }
     }
 }

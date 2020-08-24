@@ -13,6 +13,7 @@ enum DataError: Error {
     case failedToGetPosts
     case failedToAddPost
     case failedToDeletePost
+    case failedToGetPost
     case postIdIsNotFound
     
     var title: String? {
@@ -28,14 +29,14 @@ protocol DataHelperProtocol {
     func addPost(_ post: Post, onComplete: ((DataError?) -> ())?)
     func deletePost(_ post: Post, onComplete: ((DataError?) -> ())?)
     func getPosts(_ onComplete: ((_ posts: [Post], DataError?) -> ())?)
+    func getPost(with id: String, onComplete: ((_ posts: Post?, DataError?) -> ())?)
 }
-
-typealias FirebaseDatabaseServiceCallback = ([Post], Error?) -> ()
 
 protocol FirebaseDatabaseService {
     func addPost(_ post: Post, collectionName: String, completion: ((Error?) -> ())?)
     func deletePost(_ postId: String, collectionName: String, completion: ((Error?) -> ())?)
-    func getPosts(collectionName: String, orderBy: String?, descending: Bool, completion: FirebaseDatabaseServiceCallback?)
+    func getPosts(collectionName: String, orderBy: String?, descending: Bool, completion: (([Post], Error?) -> ())?)
+    func getPost(collectionName: String, id: String, completion: ((Post?, Error?) -> ())?)
 }
 
 extension Firestore: FirebaseDatabaseService {
@@ -51,7 +52,7 @@ extension Firestore: FirebaseDatabaseService {
         collection(collectionName).document(postId).delete(completion: completion)
     }
     
-    func getPosts(collectionName: String, orderBy: String? = nil, descending: Bool = false, completion: FirebaseDatabaseServiceCallback?) {
+    func getPosts(collectionName: String, orderBy: String? = nil, descending: Bool = false, completion: (([Post], Error?) -> ())?) {
         let handlerBlock: FIRQuerySnapshotBlock = { (querySnapshot, error) in
             if let _error = error {
                 completion?([], _error)
@@ -71,8 +72,19 @@ extension Firestore: FirebaseDatabaseService {
         }
     }
     
-    func getPosts(collectionName: String, completion: @escaping (QuerySnapshot?, Error?) -> Void) {
-        collection(collectionName).getDocuments(completion: completion)
+    func getPost(collectionName: String, id: String, completion: ((Post?, Error?) -> ())?) {
+        collection(collectionName).document(id).getDocument { (snapshot, error) in
+            if let _error = error {
+                completion?(nil, _error)
+            } else {
+                do {
+                    let post = try snapshot?.data(as: Post.self)
+                    completion?(post, nil)
+                } catch {
+                    completion?(nil, error)
+                }
+            }
+        }
     }
 }
 
@@ -122,6 +134,16 @@ class DataHelper: DataHelperProtocol {
                 return
             }
             onComplete?(posts, nil)
+        }
+    }
+    
+    func getPost(with id: String, onComplete: ((Post?, DataError?) -> ())?) {
+        databaseService.getPost(collectionName: collectionName, id: id) { (post, error) in
+            guard let _post = post, error == nil else {
+                onComplete?(nil, .failedToGetPost)
+                return
+            }
+            onComplete?(_post, nil)
         }
     }
     

@@ -39,6 +39,9 @@
 		E88D54B924F2ABED00E2A553 /* TimelinePostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88D54B824F2ABED00E2A553 /* TimelinePostCell.swift */; };
 		E88D54BB24F2E3BE00E2A553 /* LoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88D54BA24F2E3BE00E2A553 /* LoaderView.swift */; };
 		E88D54BD24F2E78500E2A553 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88D54BC24F2E78500E2A553 /* UIViewExtension.swift */; };
+		E88D54BF24F3EFE100E2A553 /* PostDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88D54BE24F3EFE100E2A553 /* PostDetailVC.swift */; };
+		E88D54C124F3F28200E2A553 /* PostDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88D54C024F3F28200E2A553 /* PostDetailViewModel.swift */; };
+		E88D54C324F3F8A800E2A553 /* PostDetailViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88D54C224F3F8A800E2A553 /* PostDetailViewModelTests.swift */; };
 		E8BFCE1924E6CC6E0011C994 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E8BFCE1824E6CC6E0011C994 /* GoogleService-Info.plist */; };
 		E8BFCE1B24EA5E630011C994 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8BFCE1A24EA5E630011C994 /* Post.swift */; };
 		E8EA1CEC24EE6D3F00D7BF29 /* RegisterOrLoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8EA1CEB24EE6D3F00D7BF29 /* RegisterOrLoginViewModel.swift */; };
@@ -105,6 +108,9 @@
 		E88D54B824F2ABED00E2A553 /* TimelinePostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelinePostCell.swift; sourceTree = "<group>"; };
 		E88D54BA24F2E3BE00E2A553 /* LoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderView.swift; sourceTree = "<group>"; };
 		E88D54BC24F2E78500E2A553 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
+		E88D54BE24F3EFE100E2A553 /* PostDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailVC.swift; sourceTree = "<group>"; };
+		E88D54C024F3F28200E2A553 /* PostDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewModel.swift; sourceTree = "<group>"; };
+		E88D54C224F3F8A800E2A553 /* PostDetailViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewModelTests.swift; sourceTree = "<group>"; };
 		E8BFCE1824E6CC6E0011C994 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E8BFCE1A24EA5E630011C994 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		E8EA1CEB24EE6D3F00D7BF29 /* RegisterOrLoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterOrLoginViewModel.swift; sourceTree = "<group>"; };
@@ -220,6 +226,7 @@
 				E88D54B424F27CC900E2A553 /* AccountHelperTests.swift */,
 				E88D54AE24F245F200E2A553 /* HomeViewModelTests.swift */,
 				E88D54B624F2850900E2A553 /* CreatePostViewModelTests.swift */,
+				E88D54C224F3F8A800E2A553 /* PostDetailViewModelTests.swift */,
 				E84BB74324E6C2110086BD55 /* Info.plist */,
 			);
 			path = chanchannelTests;
@@ -241,6 +248,7 @@
 				E84BB75F24E6C81E0086BD55 /* SuperVC.swift */,
 				E87EEBA724EA7FC80012F87B /* CreatePostVC.swift */,
 				E87EEBB224EE54000012F87B /* RegisterOrLoginVC.swift */,
+				E88D54BE24F3EFE100E2A553 /* PostDetailVC.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -260,6 +268,7 @@
 				E87EEBA224EA7CDC0012F87B /* HomeViewModel.swift */,
 				E87EEBAB24EA96920012F87B /* CreatePostViewModel.swift */,
 				E8EA1CEB24EE6D3F00D7BF29 /* RegisterOrLoginViewModel.swift */,
+				E88D54C024F3F28200E2A553 /* PostDetailViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -548,6 +557,8 @@
 				E84BB75E24E6C7E50086BD55 /* HomeVC.swift in Sources */,
 				E84BB72D24E6C20F0086BD55 /* SceneDelegate.swift in Sources */,
 				E87EEBBD24EE67C60012F87B /* RegisterOrLoginFooterView.swift in Sources */,
+				E88D54C124F3F28200E2A553 /* PostDetailViewModel.swift in Sources */,
+				E88D54BF24F3EFE100E2A553 /* PostDetailVC.swift in Sources */,
 				E87EEBBB24EE63650012F87B /* ArrayExtension.swift in Sources */,
 				E87EEBB924EE5BD60012F87B /* AssetsColor.swift in Sources */,
 				E8BFCE1B24EA5E630011C994 /* Post.swift in Sources */,
@@ -562,6 +573,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E88D54C324F3F8A800E2A553 /* PostDetailViewModelTests.swift in Sources */,
 				E88D54B524F27CC900E2A553 /* AccountHelperTests.swift in Sources */,
 				E88D54B324F27C5200E2A553 /* MockClass.swift in Sources */,
 				E88D54B724F2850900E2A553 /* CreatePostViewModelTests.swift in Sources */,
@@ -728,6 +740,7 @@
 				DEVELOPMENT_TEAM = 9P4M8GHJ7K;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = chanchannel/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -749,6 +762,7 @@
 				DEVELOPMENT_TEAM = 9P4M8GHJ7K;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = chanchannel/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
