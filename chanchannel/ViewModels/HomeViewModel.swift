@@ -19,6 +19,7 @@ class HomeViewModel {
     private let accountHelper: AccountHelperProtocol
     private let dataHelper: DataHelperProtocol
     private var lastSnapshot: DocumentSnapshot?
+    private let paginationLimit: Int = 25
     var posts: [Post] = []
     var authorColors: [AuthorColor] = []
     
@@ -39,8 +40,16 @@ class HomeViewModel {
         accountHelper.logoutUser(onComplete)
     }
     
-    func fetchData(_ onComplete: ((DataError?) -> ())? = nil) {
-        dataHelper.getPosts(lastId: posts.last?.id, limit: 15) { [weak self] (posts, error) in
+    func fetchData(_ onComplete: ((DataError?) -> ())?) {
+        dataHelper.getPosts(lastId: nil, limit: paginationLimit) { [weak self] (posts, error) in
+            self?.posts = posts
+            self?.generateAuthorColors()
+            onComplete?(error)
+        }
+    }
+    
+    func fetchPaginationData(_ onComplete: ((DataError?) -> ())?) {
+        dataHelper.getPosts(lastId: posts.last?.id, limit: paginationLimit) { [weak self] (posts, error) in
             self?.posts.append(contentsOf: posts)
             self?.generateAuthorColors()
             onComplete?(error)

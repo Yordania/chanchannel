@@ -174,6 +174,16 @@ extension HomeVC {
         return configuration
     }
     
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard !isFirstTimeLoad, indexPath.row == viewModel.posts.count - 1 else { return }
+        viewModel.fetchPaginationData { [weak self] (error) in
+            self?.tableView.reloadData()
+            if let _error = error, let _self = self {
+                AlertHelper.showOKAlert(_error.title, message: _error.message, onController: _self, onHandleAction: nil, onComplete: nil)
+            }
+        }
+    }
+    
 }
 
 extension HomeVC: SkeletonTableViewDataSource {
