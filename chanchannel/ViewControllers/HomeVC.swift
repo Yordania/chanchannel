@@ -39,18 +39,18 @@ final class HomeVC: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupLoginStatus()
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         if isFirstTimeLoad {
-            // Fix bug where skeleton causing table view not adjusting content offset
-            tableView.setContentOffset(CGPoint(x: 0, y: -tableView.adjustedContentInset.top), animated: false)
+            tableView.showAnimatedGradientSkeleton()
+            tableView.isUserInteractionEnabled = false
         }
     }
     
     private func setupComponents() {
-        extendedLayoutIncludesOpaqueBars = true
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonDidTap))
         
         tableView.isSkeletonable = true
@@ -75,11 +75,6 @@ final class HomeVC: UITableViewController {
     }
     
     private func reloadData(_ onComplete: (() -> ())? = nil) {
-        if isFirstTimeLoad {
-            tableView.showAnimatedGradientSkeleton()
-            tableView.isUserInteractionEnabled = false
-        }
-        
         viewModel.fetchData() { [weak self] error in
             if self?.isFirstTimeLoad == true {
                 self?.isFirstTimeLoad = false
@@ -160,6 +155,7 @@ extension HomeVC {
             let authorColor = viewModel.authorColors.first(where: { return $0.id == post.userId })?.color
             cell.setAuthor(post.author, color: authorColor)
             cell.dateLabelView.text = dateFormatter.string(from: post.createdAt.dateValue())
+            cell.separatorView.isHidden = indexPath.row == (viewModel.posts.count - 1)
         }
         return cell
     }

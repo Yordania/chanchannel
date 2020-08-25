@@ -34,6 +34,14 @@ final class PostDetailVC: UITableViewController {
         setupComponents()
     }
     
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        if isFirstTimeLoad {
+            tableView.showAnimatedGradientSkeleton()
+            tableView.isUserInteractionEnabled = false
+        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         reloadData { [weak self] in
@@ -41,6 +49,11 @@ final class PostDetailVC: UITableViewController {
                 self?.setupDeleteButton()
             }
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationItem.largeTitleDisplayMode = .automatic
     }
     
     private func setupDeleteButton() {
@@ -59,6 +72,9 @@ final class PostDetailVC: UITableViewController {
     }
     
     private func setupComponents() {
+        title = "Post"
+        navigationItem.largeTitleDisplayMode = .never
+        
         let backBarButton = UIBarButtonItem()
         backBarButton.title = "Back"
         navigationController?.navigationBar.topItem?.backBarButtonItem = backBarButton
@@ -69,11 +85,6 @@ final class PostDetailVC: UITableViewController {
     }
     
     private func reloadData(_ onComplete: (() -> ())? = nil) {
-        if isFirstTimeLoad {
-            tableView.showAnimatedGradientSkeleton()
-            tableView.isUserInteractionEnabled = false
-        }
-        
         viewModel.getPostDetail { [weak self] error in
             if self?.isFirstTimeLoad == true {
                 self?.isFirstTimeLoad = false

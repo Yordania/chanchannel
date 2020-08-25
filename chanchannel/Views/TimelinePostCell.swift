@@ -12,8 +12,10 @@ import SkeletonView
 final class TimelinePostCell: UITableViewCell {
     
     private let padding: CGFloat = 16
+    private let containerContentPadding: CGFloat = 4
     private let initialViewSize: CGFloat = 44
     private let separatorHeight: CGFloat = 1/UIScreen.main.scale
+    private let defaultLabelHeight: CGFloat = 24
     
     private lazy var initialView: UILabel = {
         let label = UILabel(frame: .zero)
@@ -33,6 +35,7 @@ final class TimelinePostCell: UITableViewCell {
         label.font = UIFont.boldSystemFont(ofSize: 14)
         label.text = "Author"
         label.isSkeletonable = true
+        label.setContentCompressionResistancePriority(.required, for: .vertical)
         return label
     }()
     
@@ -101,7 +104,9 @@ final class TimelinePostCell: UITableViewCell {
         NSLayoutConstraint.layout(visualFormats: ["H:|-[authorLabelView]-|",
                                                   "H:|-[postLabelView]-|",
                                                   "H:|-[dateLabelView]-|",
-                                                  "V:|-[authorLabelView]-[postLabelView]-[dateLabelView]-|"],
+                                                  "V:|[authorLabelView(>=defaultLabelHeight@999)]-(padding@999)-[postLabelView(>=defaultLabelHeight@999)]-(padding@999)-[dateLabelView]|"],
+                                  metrics: ["padding" : containerContentPadding,
+                                            "defaultLabelHeight" : defaultLabelHeight],
                                   views: ["authorLabelView" : authorLabelView,
                                           "postLabelView" : postLabelView,
                                           "dateLabelView" : dateLabelView])

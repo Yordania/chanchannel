@@ -27,6 +27,7 @@ final class CreatePostVC: UITableViewController {
     }
     
     private func setupComponents() {
+        title = "Add post"
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Post", style: .done, target: self, action: #selector(postButtonDidTap))
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonDidTap))
         tableView.register(ComposePostCell.self, forCellReuseIdentifier: "ComposePostCell")
