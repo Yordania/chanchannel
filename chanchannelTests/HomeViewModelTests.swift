@@ -75,18 +75,13 @@ final class HomeViewModelTests: XCTestCase {
         let viewModel = HomeViewModel(accountHelper: mockAccountHelper, dataHelper: mockDataHelper)
         
         let removePostExpectation = expectation(description: "remove")
-        let fetchPostExpectation = expectation(description: "fetch")
         var posts: [Post]?
         viewModel.removePost(post) { (error) in
             removePostExpectation.fulfill()
-            viewModel.fetchData { (erorr) in
-                posts = viewModel.posts
-                fetchPostExpectation.fulfill()
-            }
+            posts = viewModel.posts
         }
         
-        let result = XCTWaiter().wait(for: [removePostExpectation, fetchPostExpectation], timeout: 2, enforceOrder: true)
-        if result == .completed {
+        waitForExpectations(timeout: 1) { (_) in
             XCTAssertNotNil(posts)
             XCTAssertEqual(posts!.count, 0)
         }

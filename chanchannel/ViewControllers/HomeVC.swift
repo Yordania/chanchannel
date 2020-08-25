@@ -37,7 +37,7 @@ final class HomeVC: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setupLeftBarButtonItems()
+        setupLoginStatus()
         reloadData()
     }
     
@@ -54,9 +54,14 @@ final class HomeVC: UITableViewController {
         refreshControl?.addTarget(self, action: #selector(pullToRefreshDidInitate), for: .valueChanged)
     }
     
-    private func setupLeftBarButtonItems() {
+    private func setupLoginStatus() {
         if viewModel.isUserAlreadyLogin {
             navigationItem.leftBarButtonItem = UIBarButtonItem(title: "SignOut", style: .done, target: self, action: #selector(logoutButtonDidTap))
+            if let name = viewModel.userDisplayName {
+                title = "Hi \(name)!"
+            }
+        } else {
+            title = "ChanChannel"
         }
     }
     
@@ -101,6 +106,7 @@ final class HomeVC: UITableViewController {
     
     @objc private func logoutButtonDidTap(_ sender: UIBarButtonItem) {
         viewModel.logout { [weak self] (error) in
+            self?.setupLoginStatus()
             if let _error = error, let _self = self {
                 AlertHelper.showOKAlert(_error.title, message: nil, onController: _self, onHandleAction: nil, onComplete: nil)
             } else {
@@ -160,12 +166,19 @@ extension HomeVC {
         guard let post = viewModel.posts[safe: indexPath.row],
             viewModel.isOwnedPost(post) else { return nil }
         
+        let cell = tableView.cellForRow(at: indexPath)
         let action = UIContextualAction(style: .destructive, title: "Delete", handler: { [weak self] (action, view, completionHandler) in
+            cell?.contentView.showLoaderView()
             self?.viewModel.removePost(post, onComplete: { (error) in
-                if let _error = error, let _self = self {
-                    AlertHelper.showOKAlert(_error.title, message: nil, onController: _self, onHandleAction: nil, onComplete: nil)
+                cell?.contentView.hideLoaderView {
+                    if let _error = error, let _self = self {
+                        AlertHelper.showOKAlert(_error.title, message: nil, onController: _self, onHandleAction: nil, onComplete: nil)
+                    } else {
+                        tableView.beginUpdates()
+                        tableView.deleteRows(at: [indexPath], with: .automatic)
+                        tableView.endUpdates()
+                    }
                 }
-                self?.reloadData()
             })
             completionHandler(true)
         })
@@ -194,6 +207,6 @@ extension HomeVC: SkeletonTableViewDataSource {
 
 extension HomeVC: RegisterOrLoginScreenProtocol {
     func loginScreenDidDismiss() {
-        setupLeftBarButtonItems()
+        setupLoginStatus()
     }
 }

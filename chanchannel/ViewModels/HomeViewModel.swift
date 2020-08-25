@@ -19,7 +19,7 @@ class HomeViewModel {
     private let accountHelper: AccountHelperProtocol
     private let dataHelper: DataHelperProtocol
     private var lastSnapshot: DocumentSnapshot?
-    private let paginationLimit: Int = 25
+    private let paginationLimit: Int = 15
     var posts: [Post] = []
     var authorColors: [AuthorColor] = []
     
@@ -30,6 +30,10 @@ class HomeViewModel {
     
     var isUserAlreadyLogin: Bool {
         return accountHelper.isUserLogin
+    }
+    
+    var userDisplayName: String? {
+        return accountHelper.currentUser?.displayName
     }
     
     func getLoginScreen() -> RegisterOrLoginVC {
@@ -57,7 +61,14 @@ class HomeViewModel {
     }
     
     func removePost(_ post: Post, onComplete: ((DataError?) -> ())?) {
-        dataHelper.deletePost(post, onComplete: onComplete)
+        dataHelper.deletePost(post) { [weak self] (error) in
+            guard error == nil else {
+                onComplete?(error)
+                return
+            }
+            self?.posts.removeAll(where: { return $0.id == post.id })
+            onComplete?(nil)
+        }
     }
     
     func isOwnedPost(_ post: Post) -> Bool {

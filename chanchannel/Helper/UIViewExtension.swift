@@ -21,14 +21,16 @@ extension UIView {
         }
     }
     
-    func hideLoaderView() {
+    func hideLoaderView(_ completion: (() -> ())? = nil) {
         guard let loaderView = subviews.first(where: { return $0.tag == LoaderView.viewTag }) else {
+            completion?()
             return
         }
         UIView.animate(withDuration: 0.25, animations: {
             loaderView.alpha = 0
         }) { _ in
             loaderView.removeFromSuperview()
+            completion?()
         }
     }
     
