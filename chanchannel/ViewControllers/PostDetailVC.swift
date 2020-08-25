@@ -36,10 +36,33 @@ final class PostDetailVC: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        reloadData()
+        reloadData { [weak self] in
+            DispatchQueue.main.async {
+                self?.setupDeleteButton()
+            }
+        }
+    }
+    
+    private func setupDeleteButton() {
+        if viewModel.isOwnedPost() {
+            let footerView = PostDetailFooterView(frame: .zero)
+            footerView.alpha = 0
+            tableView.tableFooterView = footerView
+            tableView.tableFooterView?.frame.size.height = footerView.getViewHeight()
+            footerView.deleteButton.setTitle("Delete", for: .normal)
+            footerView.deleteButton.addTarget(self, action: #selector(deleteButtonDidTap), for: .touchUpInside)
+            
+            UIView.animate(withDuration: 0.25) {
+                footerView.alpha = 1
+            }
+        }
     }
     
     private func setupComponents() {
+        let backBarButton = UIBarButtonItem()
+        backBarButton.title = "Back"
+        navigationController?.navigationBar.topItem?.backBarButtonItem = backBarButton
+        
         tableView.isSkeletonable = true
         tableView.register(TimelinePostCell.self, forCellReuseIdentifier: "postCell")
         tableView.register(TimelinePostCell.self, forCellReuseIdentifier: "postCellSkeleton")
@@ -57,10 +80,20 @@ final class PostDetailVC: UITableViewController {
                 self?.tableView.isUserInteractionEnabled = true
                 self?.tableView.hideSkeleton()
             }
-            self?.tableView.reloadData()
+            self?.tableView.reloadSections([0], with: .automatic)
             onComplete?()
             if let _error = error, let _self = self {
                 AlertHelper.showOKAlert(_error.title, message: _error.message, onController: _self, onHandleAction: nil, onComplete: nil)
+            }
+        }
+    }
+    
+    @objc private func deleteButtonDidTap(_ sender: UIButton) {
+        viewModel.removePost { [weak self] (error) in
+            if let _error = error, let _self = self {
+                AlertHelper.showOKAlert(_error.title, message: _error.message, onController: _self, onHandleAction: nil, onComplete: nil)
+            } else {
+                self?.navigationController?.popViewController(animated: true)
             }
         }
     }
@@ -82,7 +115,11 @@ extension PostDetailVC {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard !isFirstTimeLoad else {
-            return tableView.dequeueReusableCell(withIdentifier: "postCellSkeleton", for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "postCellSkeleton", for: indexPath)
+            if let _cell = cell as? TimelinePostCell {
+                _cell.separatorView.isHidden = true
+            }
+            return cell
         }
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "postCell", for: indexPath) as? TimelinePostCell else {
@@ -93,6 +130,7 @@ extension PostDetailVC {
             cell.postLabelView.numberOfLines = 0
             cell.setAuthor(post.author, color: nil)
             cell.dateLabelView.text = dateFormatter.string(from: post.createdAt.dateValue())
+            cell.separatorView.isHidden = true
         }
         return cell
     }

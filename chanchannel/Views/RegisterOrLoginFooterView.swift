@@ -12,6 +12,7 @@ final class RegisterOrLoginFooterView: UIView {
     
     private let buttonHeight: CGFloat = 44
     private let padding: CGFloat = 16
+    private let buttonCornerRadius: CGFloat = 8
     private(set) lazy var primaryButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitleColor(.white, for: .normal)
@@ -35,6 +36,12 @@ final class RegisterOrLoginFooterView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        primaryButton.layer.cornerRadius = buttonCornerRadius
+        secondaryButton.layer.cornerRadius = buttonCornerRadius
     }
     
     private func setupComponents() {

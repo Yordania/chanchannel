@@ -55,7 +55,7 @@ final class TimelinePostCell: UITableViewCell {
         return label
     }()
     
-    private lazy var separatorView: UIView = {
+    private(set) lazy var separatorView: UIView = {
         let view = UIView(frame: .zero)
         view.backgroundColor = UIColor.appColor(.separator)
         return view

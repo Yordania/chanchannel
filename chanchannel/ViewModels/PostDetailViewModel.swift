@@ -10,11 +10,13 @@ import Foundation
 
 final class PostDetailViewModel {
     
+    private let accountHelper: AccountHelperProtocol
     private let dataHelper: DataHelperProtocol
     private let postId: String
     var post: Post?
     
-    init(dataHelper: DataHelperProtocol = DataHelper(), postId: String) {
+    init(accountHelper: AccountHelperProtocol = AccountHelper(), dataHelper: DataHelperProtocol = DataHelper(), postId: String) {
+        self.accountHelper = accountHelper
         self.dataHelper = dataHelper
         self.postId = postId
     }
@@ -37,6 +39,11 @@ final class PostDetailViewModel {
             }
             onComplete?(error)
         }
+    }
+    
+    func isOwnedPost() -> Bool {
+        guard let currentUserId = accountHelper.currentUserId else { return false }
+        return post?.userId == currentUserId
     }
     
 }

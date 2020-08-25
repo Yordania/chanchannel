@@ -33,15 +33,24 @@ final class HomeVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupComponents()
+        reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupLoginStatus()
-        reloadData()
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        if isFirstTimeLoad {
+            // Fix bug where skeleton causing table view not adjusting content offset
+            tableView.setContentOffset(CGPoint(x: 0, y: -tableView.adjustedContentInset.top), animated: false)
+        }
     }
     
     private func setupComponents() {
+        extendedLayoutIncludesOpaqueBars = true
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonDidTap))
         
         tableView.isSkeletonable = true
