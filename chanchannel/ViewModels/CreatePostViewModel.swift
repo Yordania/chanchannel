@@ -22,6 +22,10 @@ final class CreatePostViewModel {
         self.post = Post(id: nil, body: "", userId: nil, author: nil, createdAt: Timestamp(date: date), updatedAt: Timestamp(date: date))
     }
     
+    var userDisplayName: String? {
+        return accountHelper.currentUser?.displayName
+    }
+    
     func addData(_ onComplete: ((DataError?) -> ())?) {
         post.userId = accountHelper.currentUser?.uid
         post.author = accountHelper.currentUser?.displayName

@@ -72,6 +72,12 @@ extension CreatePostVC {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ComposePostCell", for: indexPath) as? ComposePostCell else {
             return UITableViewCell()
         }
+        if let name = viewModel.userDisplayName {
+            cell.titleLabel.text = "Hi \(name), what happened?"
+        } else {
+            cell.titleLabel.text = "What's in your mind?"
+        }
+        
         cell.textView.delegate = self
         return cell
     }

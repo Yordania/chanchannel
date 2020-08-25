@@ -9,6 +9,14 @@
 import UIKit
 
 final class ComposePostCell: UITableViewCell {
+    
+    private(set) lazy var titleLabel: UILabel = {
+        let label = UILabel(frame: .zero)
+        label.font = UIFont.systemFont(ofSize: 14)
+        label.numberOfLines = 0
+        return label
+    }()
+    
     private(set) lazy var textView: UITextView = {
         let textView = UITextView(frame: .zero)
         textView.font = UIFont.systemFont(ofSize: 16)
@@ -29,10 +37,14 @@ final class ComposePostCell: UITableViewCell {
     private func setupComponents() {
         let textViewHeight = (textView.font?.lineHeight ?? 8) * CGFloat(5)
         let height = textViewHeight + layoutMargins.top + layoutMargins.bottom
+        contentView.addSubview(titleLabel)
         contentView.addSubview(textView)
-        NSLayoutConstraint.layout(visualFormats: ["H:|-[textView]-|",
-                                                  "V:|-[textView(height@999)]-|"],
+        NSLayoutConstraint.layout(visualFormats: ["H:|-[titleLabel]-|",
+                                                  "H:|-[textView]-|",
+                                                  "V:|-[titleLabel]-[textView(height@999)]-|"],
                                   metrics: ["height" : height],
-                                  views: ["textView" : textView])
+                                  views: ["titleLabel" : titleLabel,
+                                          "textView" : textView])
     }
+    
 }
