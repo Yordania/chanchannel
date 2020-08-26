@@ -8,9 +8,14 @@
 
 import UIKit
 
+protocol PostDetailScreenDelegate: AnyObject {
+    func postDetailScreenDidRemovePost()
+}
+
 final class PostDetailVC: UITableViewController {
     
     private let viewModel: PostDetailViewModel
+    private let authorColor: UIColor?
     private var isFirstTimeLoad: Bool = true
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -20,8 +25,11 @@ final class PostDetailVC: UITableViewController {
         return formatter
     }()
     
-    init(viewModel: PostDetailViewModel) {
+    weak var delegate: PostDetailScreenDelegate?
+    
+    init(viewModel: PostDetailViewModel, authorColor: UIColor? = nil) {
         self.viewModel = viewModel
+        self.authorColor = authorColor
         super.init(style: .insetGrouped)
     }
     
@@ -104,6 +112,7 @@ final class PostDetailVC: UITableViewController {
             if let _error = error, let _self = self {
                 AlertHelper.showOKAlert(_error.title, message: _error.message, onController: _self, onHandleAction: nil, onComplete: nil)
             } else {
+                self?.delegate?.postDetailScreenDidRemovePost()
                 self?.navigationController?.popViewController(animated: true)
             }
         }
@@ -139,7 +148,7 @@ extension PostDetailVC {
         if let post = viewModel.post {
             cell.postLabelView.text = post.body
             cell.postLabelView.numberOfLines = 0
-            cell.setAuthor(post.author, color: nil)
+            cell.setAuthor(post.author, color: authorColor)
             cell.dateLabelView.text = dateFormatter.string(from: post.createdAt.dateValue())
             cell.separatorView.isHidden = true
         }

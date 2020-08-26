@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol RegisterOrLoginScreenProtocol: AnyObject {
+protocol RegisterOrLoginScreenDelegate: AnyObject {
     func loginScreenDidDismiss()
 }
 
@@ -75,7 +75,7 @@ final class RegisterOrLoginVC: UITableViewController {
         return screenType == .login ? [.email, .password] : [.email, .password, .name]
     }()
     private var isAlreadyTriedToSignIn: Bool = false
-    weak var delegate: RegisterOrLoginScreenProtocol?
+    weak var delegate: RegisterOrLoginScreenDelegate?
     
     init(viewModel: RegisterOrLoginViewModel, screenType: ScreenType) {
         self.viewModel = viewModel
@@ -251,7 +251,7 @@ extension RegisterOrLoginVC: TextInputCellDelegate {
     }
 }
 
-extension RegisterOrLoginVC: RegisterOrLoginScreenProtocol {
+extension RegisterOrLoginVC: RegisterOrLoginScreenDelegate {
     func loginScreenDidDismiss() {
         delegate?.loginScreenDidDismiss()
     }

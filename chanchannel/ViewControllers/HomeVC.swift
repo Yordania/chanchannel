@@ -163,7 +163,9 @@ extension HomeVC {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         guard let post = viewModel.posts[safe: indexPath.row] else { return }
-        let postDetailVC = PostDetailVC(viewModel: PostDetailViewModel(postId: post.id ?? ""))
+        let authorColor = viewModel.authorColors.first(where: { return $0.id == post.userId })?.color
+        let postDetailVC = PostDetailVC(viewModel: PostDetailViewModel(postId: post.id ?? ""), authorColor: authorColor)
+        postDetailVC.delegate = self
         navigationController?.pushViewController(postDetailVC, animated: true)
     }
     
@@ -210,8 +212,14 @@ extension HomeVC: SkeletonTableViewDataSource {
     }
 }
 
-extension HomeVC: RegisterOrLoginScreenProtocol {
+extension HomeVC: RegisterOrLoginScreenDelegate {
     func loginScreenDidDismiss() {
         setupLoginStatus()
+    }
+}
+
+extension HomeVC: PostDetailScreenDelegate {
+    func postDetailScreenDidRemovePost() {
+        reloadData()
     }
 }
