@@ -37,4 +37,18 @@ final class RegisterOrLoginViewModel {
         accountHelper.loginUser(with: email, password: password, onComplete: onComplete)
     }
     
+    func isValidEmail(_ email: String) -> Bool {
+      let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+      let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+      return emailPred.evaluate(with: email)
+    }
+    
+    func isValidPassword(_ password: String) -> Bool {
+      return password.count >= minPasswordLength
+    }
+    
+    func isValidName(_ name: String) -> Bool {
+        return !name.isEmpty
+    }
+    
 }

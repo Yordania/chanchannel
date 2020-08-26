@@ -74,6 +74,7 @@ final class RegisterOrLoginVC: UITableViewController {
     private lazy var rows: [Row] = {
         return screenType == .login ? [.email, .password] : [.email, .password, .name]
     }()
+    private var isAlreadyTriedToSignIn: Bool = false
     weak var delegate: RegisterOrLoginScreenProtocol?
     
     init(viewModel: RegisterOrLoginViewModel, screenType: ScreenType) {
@@ -120,9 +121,16 @@ final class RegisterOrLoginVC: UITableViewController {
     }
     
     @objc private func primaryButtonDidTap(_ sender: UIButton) {
+        isAlreadyTriedToSignIn = true
         view.endEditing(true)
-        view.showLoaderView()
         
+        let invalidFields = rows.filter({ return !checkValidity(for: $0) })
+        guard invalidFields.isEmpty else {
+            tableView.reloadSections([0], with: .automatic)
+            return
+        }
+        
+        view.showLoaderView()
         let handler: ((AccountError?) -> ()) = { [weak self] (error) in
             self?.view.hideLoaderView()
             guard let _error = error else {
@@ -158,6 +166,29 @@ final class RegisterOrLoginVC: UITableViewController {
         }
     }
     
+    private func checkValidity(for row: Row) -> Bool {
+        guard isAlreadyTriedToSignIn else { return true }
+        switch row {
+        case .email:
+            return viewModel.isValidEmail(viewModel.email)
+        case .password:
+            return viewModel.isValidPassword(viewModel.password)
+        default:
+            return viewModel.isValidName(viewModel.name)
+        }
+    }
+    
+    private func setErrorLabel(for row: Row, isValid: Bool, cell: TextInputCell) {
+        switch row {
+        case .email:
+            cell.setInfoLabel(isValid ? "" : "Wrong email format", type: isValid ? .default : .error)
+        case .password:
+            cell.setInfoLabel(isValid ? "" : "Minimal password length is 8", type: isValid ? .default : .error)
+        default:
+            cell.setInfoLabel(isValid ? "" : "Name couldn't be empty", type: isValid ? .default : .error)
+        }
+    }
+    
 }
 
 extension RegisterOrLoginVC {
@@ -170,14 +201,26 @@ extension RegisterOrLoginVC {
             return UITableViewCell()
         }
         
+        cell.delegate = self
+        
         if let row = rows[safe: indexPath.row] {
             cell.titleLabel.text = row.title
             cell.textInputView.autocapitalizationType = .none
             cell.textInputView.keyboardType = row.keyboardType
             cell.textInputView.isSecureTextEntry = row == .password
             cell.textInputView.placeholder = row.placeholder
-            cell.textInputView.delegate = self
             cell.textInputView.tag = row.rawValue
+            
+            let isValid = checkValidity(for: row)
+            setErrorLabel(for: row, isValid: isValid, cell: cell)
+            switch row {
+            case .email:
+                cell.textInputView.text = viewModel.email
+            case .password:
+                cell.textInputView.text = viewModel.password
+            default:
+                cell.textInputView.text = viewModel.name
+            }
         }
         
         return cell
@@ -189,17 +232,22 @@ extension RegisterOrLoginVC {
     }
 }
 
-extension RegisterOrLoginVC: UITextFieldDelegate {
-    func textFieldDidEndEditing(_ textField: UITextField) {
+extension RegisterOrLoginVC: TextInputCellDelegate {
+    func textInputCell(_ cell: TextInputCell, textDidChangeFor textField: UITextField, text: String) {
         guard let row = Row(rawValue: textField.tag) else { return }
         switch row {
-        case .email:
-            viewModel.email = textField.text ?? ""
-        case .password:
-            viewModel.password = textField.text ?? ""
-        case .name:
-            viewModel.name = textField.text ?? ""
+        case .email: viewModel.email = text
+        case .password: viewModel.password = text
+        case .name: viewModel.name = text
         }
+        
+        let isValid = checkValidity(for: row)
+        if isAlreadyTriedToSignIn {
+            setErrorLabel(for: row, isValid: isValid, cell: cell)
+        }
+        
+        tableView.beginUpdates()
+        tableView.endUpdates()
     }
 }
 

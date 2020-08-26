@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol TextInputCellDelegate: AnyObject {
+    func textInputCell(_ cell: TextInputCell, textDidChangeFor textField: UITextField, text: String)
+}
+
 final class TextInputCell: UITableViewCell {
     
     enum InfoType {
@@ -23,6 +27,8 @@ final class TextInputCell: UITableViewCell {
             }
         }
     }
+    
+    weak var delegate: TextInputCellDelegate?
     
     private let separatorHeight: CGFloat = 1/UIScreen.main.scale
     private(set) lazy var titleLabel: UILabel = {
@@ -80,11 +86,26 @@ final class TextInputCell: UITableViewCell {
         
         titleLabel.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, multiplier: 0.3).isActive = true
         titleLabel.centerYAnchor.constraint(equalTo: textInputView.centerYAnchor).isActive = true
+        
+        textInputView.delegate = self
     }
     
     func setInfoLabel(_ title: String, type: InfoType) {
         infoLabel.text = title
         infoLabel.textColor = type.textColor
+    }
+    
+}
+
+extension TextInputCell: UITextFieldDelegate {
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if let text = textField.text,
+           let textRange = Range(range, in: text) {
+           let updatedText = text.replacingCharacters(in: textRange, with: string)
+            delegate?.textInputCell(self, textDidChangeFor: textField, text: updatedText)
+        }
+        return true
     }
     
 }

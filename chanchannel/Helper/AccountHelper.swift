@@ -12,6 +12,7 @@ import FirebaseAuth
 enum AccountError {
     case failedToSignIn
     case wrongPassword
+    case emailAlreadyUse
     case failedToRegister
     case failedToUpdateName
     case failedToSignOut
@@ -22,6 +23,8 @@ enum AccountError {
             return "Failed to sign in"
         case .wrongPassword:
             return "It seems you've input a wrong password"
+        case .emailAlreadyUse:
+            return "It seems your email is already in use"
         case .failedToRegister:
             return "Failed to register"
         case .failedToUpdateName:
@@ -104,7 +107,16 @@ class AccountHelper: AccountHelperProtocol {
             if self?.isUserLogin == true {
                 onComplete?(nil)
             } else {
-                onComplete?(.failedToRegister)
+                if let _error = error as NSError? {
+                    switch AuthErrorCode(rawValue: _error.code) {
+                    case .emailAlreadyInUse:
+                      onComplete?(.emailAlreadyUse)
+                    default:
+                        onComplete?(.failedToRegister)
+                    }
+                } else {
+                    onComplete?(.failedToRegister)
+                }
             }
         }
     }
