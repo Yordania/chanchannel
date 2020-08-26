@@ -18,7 +18,6 @@
 		E84BB73724E6C2110086BD55 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E84BB73524E6C2110086BD55 /* LaunchScreen.storyboard */; };
 		E84BB74D24E6C2110086BD55 /* chanchannelUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84BB74C24E6C2110086BD55 /* chanchannelUITests.swift */; };
 		E84BB75E24E6C7E50086BD55 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84BB75D24E6C7E50086BD55 /* HomeVC.swift */; };
-		E84BB76024E6C81E0086BD55 /* SuperVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84BB75F24E6C81E0086BD55 /* SuperVC.swift */; };
 		E862F53824F6A1320095D3FE /* RegisterOrLoginViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E862F53724F6A1320095D3FE /* RegisterOrLoginViewModelTests.swift */; };
 		E87EEBA324EA7CDC0012F87B /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87EEBA224EA7CDC0012F87B /* HomeViewModel.swift */; };
 		E87EEBA824EA7FC80012F87B /* CreatePostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87EEBA724EA7FC80012F87B /* CreatePostVC.swift */; };
@@ -89,7 +88,6 @@
 		E84BB74C24E6C2110086BD55 /* chanchannelUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chanchannelUITests.swift; sourceTree = "<group>"; };
 		E84BB74E24E6C2110086BD55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E84BB75D24E6C7E50086BD55 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
-		E84BB75F24E6C81E0086BD55 /* SuperVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperVC.swift; sourceTree = "<group>"; };
 		E862F53724F6A1320095D3FE /* RegisterOrLoginViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterOrLoginViewModelTests.swift; sourceTree = "<group>"; };
 		E87EEBA224EA7CDC0012F87B /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		E87EEBA724EA7FC80012F87B /* CreatePostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostVC.swift; sourceTree = "<group>"; };
@@ -250,7 +248,6 @@
 			isa = PBXGroup;
 			children = (
 				E84BB75D24E6C7E50086BD55 /* HomeVC.swift */,
-				E84BB75F24E6C81E0086BD55 /* SuperVC.swift */,
 				E87EEBA724EA7FC80012F87B /* CreatePostVC.swift */,
 				E87EEBB224EE54000012F87B /* RegisterOrLoginVC.swift */,
 				E88D54BE24F3EFE100E2A553 /* PostDetailVC.swift */,
@@ -546,7 +543,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E84BB76024E6C81E0086BD55 /* SuperVC.swift in Sources */,
 				E87EEBAA24EA800C0012F87B /* NSLayoutConstraintExtension.swift in Sources */,
 				E88D54BB24F2E3BE00E2A553 /* LoaderView.swift in Sources */,
 				E87EEBB324EE54000012F87B /* RegisterOrLoginVC.swift in Sources */,
